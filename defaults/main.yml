@@ -154,6 +154,26 @@ devture_woodpecker_ci_server_container_labels_traefik_entrypoints: web-secure
 devture_woodpecker_ci_server_container_labels_traefik_tls: "{{ devture_woodpecker_ci_server_container_labels_traefik_entrypoints != 'web' }}"
 devture_woodpecker_ci_server_container_labels_traefik_tls_certResolver: default  # noqa var-naming
 
+# devture_woodpecker_ci_server_container_labels_traefik_grpc_enabled controls whether
+# to expose the gRPC port externally.  Set this to true if you plan to run Woodpecker agents
+# on separate machines/networks.
+devture_woodpecker_ci_server_container_labels_traefik_grpc_enabled: false
+# The following regexp is used to match the Protobuf endpoints.
+#
+# Note that even if you are serving Woodpecker under a prefix (e.g., `/ci`), these endpoints will *not*
+# use the prefix.  For example, if your Woodpecker server instance lives at https://example.com/ci, these
+# endpoints will respond at https://example.com/proto.Woodpecker(Auth)?.
+#
+# This setup has been inspired by:
+# https://www.nemunai.re/post/woodpecker-ci-mixing-http-grpc-on-one-domain-nginx/
+devture_woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpecker: '/proto.Woodpecker'
+devture_woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpeckerauth: '/proto.WoodpeckerAuth'
+devture_woodpecker_ci_server_container_labels_traefik_grpc_rule: "Host(`{{ devture_woodpecker_ci_server_container_labels_traefik_hostname }}`) && (PathPrefix(`{{ devture_woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpecker }}`) || PathPrefix(`{{ devture_woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpeckerauth }}`))"
+devture_woodpecker_ci_server_container_labels_traefik_grpc_priority: 0
+devture_woodpecker_ci_server_container_labels_traefik_grpc_entrypoints: web-secure
+devture_woodpecker_ci_server_container_labels_traefik_grpc_tls: "{{ devture_woodpecker_ci_server_container_labels_traefik_grpc_entrypoints != 'web' }}"
+devture_woodpecker_ci_server_container_labels_traefik_grpc_tls_certResolver: default  # noqa var-naming
+
 # Controls which additional headers to attach to all HTTP responses.
 # To add your own headers, use `devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom`
 devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers: "{{ devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers_auto | combine(devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom) }}"

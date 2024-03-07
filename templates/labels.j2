@@ -35,6 +35,24 @@ traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}.tls.certResol
 {% endif %}
 
 traefik.http.services.{{ devture_woodpecker_ci_server_identifier }}.loadbalancer.server.port=8000
+
+{% if devture_woodpecker_ci_server_container_labels_traefik_grpc_enabled %}
+# gRPC
+traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.rule={{ devture_woodpecker_ci_server_container_labels_traefik_grpc_rule }}
+{% if devture_woodpecker_ci_server_container_labels_traefik_grpc_priority | int > 0 %}
+traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.priority={{ devture_woodpecker_ci_server_container_labels_traefik_grpc_priority }}
+{% endif %}
+traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.service={{ devture_woodpecker_ci_server_identifier }}-grpc
+traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.entrypoints={{ devture_woodpecker_ci_server_container_labels_traefik_grpc_entrypoints }}
+traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.tls={{ devture_woodpecker_ci_server_container_labels_traefik_grpc_tls | to_json }}
+{% if devture_woodpecker_ci_server_container_labels_traefik_grpc_tls %}
+traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.tls.certResolver={{ devture_woodpecker_ci_server_container_labels_traefik_grpc_tls_certResolver }}
+{% endif %}
+
+traefik.http.services.{{ devture_woodpecker_ci_server_identifier }}-grpc.loadbalancer.server.port={{ devture_woodpecker_ci_server_config_grpc_addr_port }}
+traefik.http.services.{{ devture_woodpecker_ci_server_identifier }}-grpc.loadbalancer.server.scheme=h2c
+{% endif %}
+
 {% endif %}
 
 {{ devture_woodpecker_ci_server_container_labels_additional_labels }}
