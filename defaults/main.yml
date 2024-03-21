@@ -3,7 +3,7 @@
 
 devture_woodpecker_ci_server_enabled: true
 
-devture_woodpecker_ci_server_version: v2.4.0
+devture_woodpecker_ci_server_version: v2.4.1
 
 devture_woodpecker_ci_server_identifier: devture-woodpecker-ci-server
 
