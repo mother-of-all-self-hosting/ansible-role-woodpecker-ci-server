@@ -211,7 +211,9 @@ woodpecker_ci_server_container_network: woodpecker-ci
 
 # A list of additional container networks that the container would be connected to.
 # The playbook does not create these networks, so make sure they already exist.
-woodpecker_ci_server_container_additional_networks: []
+woodpecker_ci_server_container_additional_networks: "{{ woodpecker_ci_server_container_additional_networks_auto + woodpecker_ci_server_container_additional_networks_custom }}"
+woodpecker_ci_server_container_additional_networks_auto: []
+woodpecker_ci_server_container_additional_networks_custom: []
 
 
 # Specifies the value of the `X-XSS-Protection` header
