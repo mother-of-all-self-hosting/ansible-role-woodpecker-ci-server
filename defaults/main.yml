@@ -1,109 +1,110 @@
 ---
+
 # Project source code URL: https://github.com/woodpecker-ci/woodpecker
 
-devture_woodpecker_ci_server_enabled: true
+woodpecker_ci_server_enabled: true
 
-devture_woodpecker_ci_server_version: v2.7.1
+woodpecker_ci_server_version: v2.7.1
 
-devture_woodpecker_ci_server_identifier: devture-woodpecker-ci-server
+woodpecker_ci_server_identifier: woodpecker-ci-server
 
-devture_woodpecker_ci_server_scheme: https
+woodpecker_ci_server_scheme: https
 
-# devture_woodpecker_ci_server_hostname is the fully-qualified domain name of your Woodpecker CI host (e.g. `woodpecker.DOMAIN`)
-devture_woodpecker_ci_server_hostname: ''
+# woodpecker_ci_server_hostname is the fully-qualified domain name of your Woodpecker CI host (e.g. `woodpecker.DOMAIN`)
+woodpecker_ci_server_hostname: ''
 
 # The path at which Woodpecker CI is served.
 # This value must either be `/` or not end with a slash (e.g. `/ci`).
-devture_woodpecker_ci_server_path_prefix: /
+woodpecker_ci_server_path_prefix: /
 
-devture_woodpecker_ci_server_uid: ''
-devture_woodpecker_ci_server_gid: ''
+woodpecker_ci_server_uid: ''
+woodpecker_ci_server_gid: ''
 
-devture_woodpecker_ci_server_container_image: "{{ devture_woodpecker_ci_server_container_image_registry_prefix }}woodpeckerci/woodpecker-server:{{ devture_woodpecker_ci_server_container_image_tag }}"
-devture_woodpecker_ci_server_container_image_tag: "{{ devture_woodpecker_ci_server_version }}"
-devture_woodpecker_ci_server_container_image_force_pull: "{{ devture_woodpecker_ci_server_container_image.endswith(':latest') }}"
-devture_woodpecker_ci_server_container_image_registry_prefix: docker.io/
+woodpecker_ci_server_container_image: "{{ woodpecker_ci_server_container_image_registry_prefix }}woodpeckerci/woodpecker-server:{{ woodpecker_ci_server_container_image_tag }}"
+woodpecker_ci_server_container_image_tag: "{{ woodpecker_ci_server_version }}"
+woodpecker_ci_server_container_image_force_pull: "{{ woodpecker_ci_server_container_image.endswith(':latest') }}"
+woodpecker_ci_server_container_image_registry_prefix: docker.io/
 
-devture_woodpecker_ci_server_base_path: "/{{ devture_woodpecker_ci_server_identifier }}"
-devture_woodpecker_ci_server_data_dir_path: "{{ devture_woodpecker_ci_server_base_path }}/data"
+woodpecker_ci_server_base_path: "/{{ woodpecker_ci_server_identifier }}"
+woodpecker_ci_server_data_dir_path: "{{ woodpecker_ci_server_base_path }}/data"
 
-devture_woodpecker_ci_server_http_bind_port: ''
-devture_woodpecker_ci_server_https_bind_port: ''
+woodpecker_ci_server_http_bind_port: ''
+woodpecker_ci_server_https_bind_port: ''
 
-# devture_woodpecker_ci_server_container_add_host_domain_name and devture_woodpecker_ci_server_container_add_host_ip_address
+# woodpecker_ci_server_container_add_host_domain_name and woodpecker_ci_server_container_add_host_ip_address
 # allow you to add a new host entry (domain name to IP address mapping) to the container.
-devture_woodpecker_ci_server_container_add_host_domain_name: ''
-devture_woodpecker_ci_server_container_add_host_ip_address: ''
+woodpecker_ci_server_container_add_host_domain_name: ''
+woodpecker_ci_server_container_add_host_ip_address: ''
 
-# devture_woodpecker_ci_server_config_host controls WOODPECKER_HOST - Server fully qualified url, without the root path prefix.
+# woodpecker_ci_server_config_host controls WOODPECKER_HOST - Server fully qualified url, without the root path prefix.
 # See: https://woodpecker-ci.org/docs/administration/server-config#woodpecker_host
-# See: devture_woodpecker_ci_server_config_root_url
-devture_woodpecker_ci_server_config_host: "{{ devture_woodpecker_ci_server_scheme }}://{{ devture_woodpecker_ci_server_hostname }}"
+# See: woodpecker_ci_server_config_root_url
+woodpecker_ci_server_config_host: "{{ woodpecker_ci_server_scheme }}://{{ woodpecker_ci_server_hostname }}"
 
-# devture_woodpecker_ci_server_config_root_url controls WOODPECKER_ROOT_URL - path prefix.
+# woodpecker_ci_server_config_root_url controls WOODPECKER_ROOT_URL - path prefix.
 # See: https://woodpecker-ci.org/docs/administration/server-config#woodpecker_root_url
-devture_woodpecker_ci_server_config_root_url: "{{ devture_woodpecker_ci_server_path_prefix }}"
+woodpecker_ci_server_config_root_url: "{{ woodpecker_ci_server_path_prefix }}"
 
-# devture_woodpecker_ci_server_config_open controls WOODPECKER_OPEN - whether user registration is allowed
+# woodpecker_ci_server_config_open controls WOODPECKER_OPEN - whether user registration is allowed
 # See: https://woodpecker-ci.org/docs/administration/server-config#woodpecker_open
-devture_woodpecker_ci_server_config_open: true
+woodpecker_ci_server_config_open: true
 
-# devture_woodpecker_ci_server_config_server_addr_port controls the port part of WOODPECKER_SERVER_ADDR
-# Also see `devture_woodpecker_ci_server_config_server_addr`
-devture_woodpecker_ci_server_config_server_addr_port: 8000
+# woodpecker_ci_server_config_server_addr_port controls the port part of WOODPECKER_SERVER_ADDR
+# Also see `woodpecker_ci_server_config_server_addr`
+woodpecker_ci_server_config_server_addr_port: 8000
 
-# devture_woodpecker_ci_server_config_server_addr controls WOODPECKER_SERVER_ADDR - Configures the HTTP listener port.
+# woodpecker_ci_server_config_server_addr controls WOODPECKER_SERVER_ADDR - Configures the HTTP listener port.
 # See: https://woodpecker-ci.org/docs/administration/server-config#woodpecker_server_addr
-devture_woodpecker_ci_server_config_server_addr: ":{{ devture_woodpecker_ci_server_config_server_addr_port }}"
+woodpecker_ci_server_config_server_addr: ":{{ woodpecker_ci_server_config_server_addr_port }}"
 
-# devture_woodpecker_ci_server_config_admin controls WOODPECKER_ADMIN (a comma-separated list of admin accounts)
+# woodpecker_ci_server_config_admin controls WOODPECKER_ADMIN (a comma-separated list of admin accounts)
 #
 # See: https://woodpecker-ci.org/docs/administration/server-config#woodpecker_admin
 #
 # Note: you're supposed to provide users as a list of strings here, not a comma-separated string
-# like in `devture_woodpecker_ci_server_config_admin`
-devture_woodpecker_ci_server_config_admins: []
+# like in `woodpecker_ci_server_config_admin`
+woodpecker_ci_server_config_admins: []
 
-# devture_woodpecker_ci_server_config_admin controls WOODPECKER_ADMIN (a comma-separated list of admin accounts)
+# woodpecker_ci_server_config_admin controls WOODPECKER_ADMIN (a comma-separated list of admin accounts)
 #
 # See: https://woodpecker-ci.org/docs/administration/server-config#woodpecker_admin
-devture_woodpecker_ci_server_config_admin: "{{ devture_woodpecker_ci_server_config_admins | join(',') }}"
+woodpecker_ci_server_config_admin: "{{ woodpecker_ci_server_config_admins | join(',') }}"
 
-# devture_woodpecker_ci_server_config_agent_secret controls WOODPECKER_AGENT_SECRET -
+# woodpecker_ci_server_config_agent_secret controls WOODPECKER_AGENT_SECRET -
 # A shared secret used by server and agents to authenticate communication. A secret can be generated by `openssl rand -hex 32`
-devture_woodpecker_ci_server_config_agent_secret: ''
+woodpecker_ci_server_config_agent_secret: ''
 
-# devture_woodpecker_ci_server_config_grpc_addr_port controls the port part of WOODPECKER_GRPC_ADDR
-# Also see `devture_woodpecker_ci_server_config_grpc_addr`
-devture_woodpecker_ci_server_config_grpc_addr_port: 9000
+# woodpecker_ci_server_config_grpc_addr_port controls the port part of WOODPECKER_GRPC_ADDR
+# Also see `woodpecker_ci_server_config_grpc_addr`
+woodpecker_ci_server_config_grpc_addr_port: 9000
 
-# devture_woodpecker_ci_server_config_grpc_addr controls WOODPECKER_GRPC_ADDR - Configures the gRPC listener port.
+# woodpecker_ci_server_config_grpc_addr controls WOODPECKER_GRPC_ADDR - Configures the gRPC listener port.
 # See: https://woodpecker-ci.org/docs/administration/server-config#woodpecker_grpc_addr
-devture_woodpecker_ci_server_config_grpc_addr: ":{{ devture_woodpecker_ci_server_config_grpc_addr_port }}"
+woodpecker_ci_server_config_grpc_addr: ":{{ woodpecker_ci_server_config_grpc_addr_port }}"
 
-# devture_woodpecker_ci_server_config_log_level configures the logging level.
+# woodpecker_ci_server_config_log_level configures the logging level.
 # Valid values: 'trace', 'debug', 'info', 'warn', 'error', 'fatal', 'panic', 'disabled' and empty ('')
 #
 # See: https://woodpecker-ci.org/docs/administration/server-config#woodpecker_log_level
-devture_woodpecker_ci_server_config_log_level: info
+woodpecker_ci_server_config_log_level: info
 
-# devture_woodpecker_ci_server_provider specifies the source-code provider (Github, Gitlab, Gitea, ..)
+# woodpecker_ci_server_provider specifies the source-code provider (Github, Gitlab, Gitea, ..)
 # See: https://woodpecker-ci.org/docs/administration/vcs/overview
-devture_woodpecker_ci_server_provider: ''
+woodpecker_ci_server_provider: ''
 
 
 ######################################
 # Gitea-specific                     #
 ######################################
 
-# devture_woodpecker_ci_server_gitea_server specifies the URL to the Gitea server.
+# woodpecker_ci_server_gitea_server specifies the URL to the Gitea server.
 # Example: https://woodpecker-ci.org/docs/administration/vcs/gitea#woodpecker_gitea_url
-devture_woodpecker_ci_server_config_gitea_url: ''
+woodpecker_ci_server_config_gitea_url: ''
 
-devture_woodpecker_ci_server_config_gitea_client: ''
-devture_woodpecker_ci_server_config_gitea_secret: ''
+woodpecker_ci_server_config_gitea_client: ''
+woodpecker_ci_server_config_gitea_secret: ''
 
-devture_woodpecker_ci_server_config_gitea_skip_verify: false
+woodpecker_ci_server_config_gitea_skip_verify: false
 
 ######################################
 # /Gitea-specific                    #
@@ -114,11 +115,11 @@ devture_woodpecker_ci_server_config_gitea_skip_verify: false
 # github-specific                     #
 ######################################
 
-devture_woodpecker_ci_server_config_github_url: 'https://github.com'
+woodpecker_ci_server_config_github_url: 'https://github.com'
 
-devture_woodpecker_ci_server_config_github_client: ''
-devture_woodpecker_ci_server_config_github_secret: ''
-devture_woodpecker_ci_server_config_github_skip_verify: false
+woodpecker_ci_server_config_github_client: ''
+woodpecker_ci_server_config_github_secret: ''
+woodpecker_ci_server_config_github_skip_verify: false
 
 ######################################
 # /github-specific                    #
@@ -127,37 +128,37 @@ devture_woodpecker_ci_server_config_github_skip_verify: false
 
 
 
-# devture_woodpecker_ci_server_database_driver configures the database driver
+# woodpecker_ci_server_database_driver configures the database driver
 # Valid values: sqlite3, postgres, ymsql
 #
 # See: https://woodpecker-ci.org/docs/administration/database
-devture_woodpecker_ci_server_database_driver: sqlite3
+woodpecker_ci_server_database_driver: sqlite3
 
-# devture_woodpecker_ci_server_database_datasource configures the URI or filepath where the database can be reached.
-# This is dependant on `devture_woodpecker_ci_server_database_driver`
-devture_woodpecker_ci_server_database_datasource: /data/database.sqlite
+# woodpecker_ci_server_database_datasource configures the URI or filepath where the database can be reached.
+# This is dependant on `woodpecker_ci_server_database_driver`
+woodpecker_ci_server_database_datasource: /data/database.sqlite
 
-devture_woodpecker_ci_server_systemd_required_systemd_services_list: ['docker.service']
+woodpecker_ci_server_systemd_required_systemd_services_list: ['docker.service']
 
-# devture_woodpecker_ci_server_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
+# woodpecker_ci_server_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `roles/custom/gitea/templates/labels.j2` for details.
 #
-# To inject your own other container labels, see `devture_woodpecker_ci_server_container_labels_additional_labels`.
-devture_woodpecker_ci_server_container_labels_traefik_enabled: true
-devture_woodpecker_ci_server_container_labels_traefik_docker_network: "{{ devture_woodpecker_ci_server_identifier }}"
-devture_woodpecker_ci_server_container_labels_traefik_hostname: "{{ devture_woodpecker_ci_server_hostname }}"
+# To inject your own other container labels, see `woodpecker_ci_server_container_labels_additional_labels`.
+woodpecker_ci_server_container_labels_traefik_enabled: true
+woodpecker_ci_server_container_labels_traefik_docker_network: "{{ woodpecker_ci_server_identifier }}"
+woodpecker_ci_server_container_labels_traefik_hostname: "{{ woodpecker_ci_server_hostname }}"
 # The path prefix must either be `/` or not end with a slash (e.g. `/ci`).
-devture_woodpecker_ci_server_container_labels_traefik_path_prefix: "{{ devture_woodpecker_ci_server_path_prefix }}"
-devture_woodpecker_ci_server_container_labels_traefik_rule: "Host(`{{ devture_woodpecker_ci_server_container_labels_traefik_hostname }}`){% if devture_woodpecker_ci_server_container_labels_traefik_path_prefix != '/' %} && PathPrefix(`{{ devture_woodpecker_ci_server_container_labels_traefik_path_prefix }}`){% endif %}"
-devture_woodpecker_ci_server_container_labels_traefik_priority: 0
-devture_woodpecker_ci_server_container_labels_traefik_entrypoints: web-secure
-devture_woodpecker_ci_server_container_labels_traefik_tls: "{{ devture_woodpecker_ci_server_container_labels_traefik_entrypoints != 'web' }}"
-devture_woodpecker_ci_server_container_labels_traefik_tls_certResolver: default  # noqa var-naming
+woodpecker_ci_server_container_labels_traefik_path_prefix: "{{ woodpecker_ci_server_path_prefix }}"
+woodpecker_ci_server_container_labels_traefik_rule: "Host(`{{ woodpecker_ci_server_container_labels_traefik_hostname }}`){% if woodpecker_ci_server_container_labels_traefik_path_prefix != '/' %} && PathPrefix(`{{ woodpecker_ci_server_container_labels_traefik_path_prefix }}`){% endif %}"
+woodpecker_ci_server_container_labels_traefik_priority: 0
+woodpecker_ci_server_container_labels_traefik_entrypoints: web-secure
+woodpecker_ci_server_container_labels_traefik_tls: "{{ woodpecker_ci_server_container_labels_traefik_entrypoints != 'web' }}"
+woodpecker_ci_server_container_labels_traefik_tls_certResolver: default  # noqa var-naming
 
-# devture_woodpecker_ci_server_container_labels_traefik_grpc_enabled controls whether
+# woodpecker_ci_server_container_labels_traefik_grpc_enabled controls whether
 # to expose the gRPC port externally.  Set this to true if you plan to run Woodpecker agents
 # on separate machines/networks.
-devture_woodpecker_ci_server_container_labels_traefik_grpc_enabled: false
+woodpecker_ci_server_container_labels_traefik_grpc_enabled: false
 # The following regexp is used to match the Protobuf endpoints.
 #
 # Note that even if you are serving Woodpecker under a prefix (e.g., `/ci`), these endpoints will *not*
@@ -166,51 +167,51 @@ devture_woodpecker_ci_server_container_labels_traefik_grpc_enabled: false
 #
 # This setup has been inspired by:
 # https://www.nemunai.re/post/woodpecker-ci-mixing-http-grpc-on-one-domain-nginx/
-devture_woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpecker: '/proto.Woodpecker'
-devture_woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpeckerauth: '/proto.WoodpeckerAuth'
-devture_woodpecker_ci_server_container_labels_traefik_grpc_rule: "Host(`{{ devture_woodpecker_ci_server_container_labels_traefik_hostname }}`) && (PathPrefix(`{{ devture_woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpecker }}`) || PathPrefix(`{{ devture_woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpeckerauth }}`))"
-devture_woodpecker_ci_server_container_labels_traefik_grpc_priority: 0
-devture_woodpecker_ci_server_container_labels_traefik_grpc_entrypoints: web-secure
-devture_woodpecker_ci_server_container_labels_traefik_grpc_tls: "{{ devture_woodpecker_ci_server_container_labels_traefik_grpc_entrypoints != 'web' }}"
-devture_woodpecker_ci_server_container_labels_traefik_grpc_tls_certResolver: default  # noqa var-naming
+woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpecker: '/proto.Woodpecker'
+woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpeckerauth: '/proto.WoodpeckerAuth'
+woodpecker_ci_server_container_labels_traefik_grpc_rule: "Host(`{{ woodpecker_ci_server_container_labels_traefik_hostname }}`) && (PathPrefix(`{{ woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpecker }}`) || PathPrefix(`{{ woodpecker_ci_server_container_labels_traefik_grpc_path_prefix_woodpeckerauth }}`))"
+woodpecker_ci_server_container_labels_traefik_grpc_priority: 0
+woodpecker_ci_server_container_labels_traefik_grpc_entrypoints: web-secure
+woodpecker_ci_server_container_labels_traefik_grpc_tls: "{{ woodpecker_ci_server_container_labels_traefik_grpc_entrypoints != 'web' }}"
+woodpecker_ci_server_container_labels_traefik_grpc_tls_certResolver: default  # noqa var-naming
 
 # Controls which additional headers to attach to all HTTP responses.
-# To add your own headers, use `devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom`
-devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers: "{{ devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers_auto | combine(devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom) }}"
-devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers_auto: |
+# To add your own headers, use `woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom`
+woodpecker_ci_server_container_labels_traefik_additional_response_headers: "{{ woodpecker_ci_server_container_labels_traefik_additional_response_headers_auto | combine(woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom) }}"
+woodpecker_ci_server_container_labels_traefik_additional_response_headers_auto: |
   {{
     {}
-    | combine ({'X-XSS-Protection': devture_woodpecker_ci_server_http_header_xss_protection} if devture_woodpecker_ci_server_http_header_xss_protection else {})
-    | combine ({'X-Frame-Options': devture_woodpecker_ci_server_http_header_frame_options} if devture_woodpecker_ci_server_http_header_frame_options else {})
-    | combine ({'X-Content-Type-Options': devture_woodpecker_ci_server_http_header_content_type_options} if devture_woodpecker_ci_server_http_header_content_type_options else {})
-    | combine ({'Content-Security-Policy': devture_woodpecker_ci_server_http_header_content_security_policy} if devture_woodpecker_ci_server_http_header_content_security_policy else {})
-    | combine ({'Permission-Policy': devture_woodpecker_ci_server_http_header_content_permission_policy} if devture_woodpecker_ci_server_http_header_content_permission_policy else {})
-    | combine ({'Strict-Transport-Security': devture_woodpecker_ci_server_http_header_strict_transport_security} if devture_woodpecker_ci_server_http_header_strict_transport_security and devture_woodpecker_ci_server_container_labels_traefik_tls else {})
+    | combine ({'X-XSS-Protection': woodpecker_ci_server_http_header_xss_protection} if woodpecker_ci_server_http_header_xss_protection else {})
+    | combine ({'X-Frame-Options': woodpecker_ci_server_http_header_frame_options} if woodpecker_ci_server_http_header_frame_options else {})
+    | combine ({'X-Content-Type-Options': woodpecker_ci_server_http_header_content_type_options} if woodpecker_ci_server_http_header_content_type_options else {})
+    | combine ({'Content-Security-Policy': woodpecker_ci_server_http_header_content_security_policy} if woodpecker_ci_server_http_header_content_security_policy else {})
+    | combine ({'Permission-Policy': woodpecker_ci_server_http_header_content_permission_policy} if woodpecker_ci_server_http_header_content_permission_policy else {})
+    | combine ({'Strict-Transport-Security': woodpecker_ci_server_http_header_strict_transport_security} if woodpecker_ci_server_http_header_strict_transport_security and woodpecker_ci_server_container_labels_traefik_tls else {})
   }}
-devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom: {}
+woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom: {}
 
-# devture_woodpecker_ci_server_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
+# woodpecker_ci_server_container_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
 # See `roles/custom/woodpecker_ci_server/templates/labels.j2` for details.
 #
 # Example:
-# devture_woodpecker_ci_server_container_labels_additional_labels: |
+# woodpecker_ci_server_container_labels_additional_labels: |
 #   my.label=1
 #   another.label="here"
-devture_woodpecker_ci_server_container_labels_additional_labels: ''
+woodpecker_ci_server_container_labels_additional_labels: ''
 
-# devture_woodpecker_ci_server_container_additional_environment_variables contains a multiline string with additional environment variables to pass to the container.
+# woodpecker_ci_server_container_additional_environment_variables contains a multiline string with additional environment variables to pass to the container.
 #
 # Example:
-# devture_woodpecker_ci_server_container_additional_environment_variables: |
+# woodpecker_ci_server_container_additional_environment_variables: |
 #   VAR=1
 #   ANOTHER=value
-devture_woodpecker_ci_server_container_additional_environment_variables: ''
+woodpecker_ci_server_container_additional_environment_variables: ''
 
-devture_woodpecker_ci_server_container_network: woodpecker-ci
+woodpecker_ci_server_container_network: woodpecker-ci
 
 # A list of additional container networks that the container would be connected to.
 # The playbook does not create these networks, so make sure they already exist.
-devture_woodpecker_ci_server_container_additional_networks: []
+woodpecker_ci_server_container_additional_networks: []
 
 
 # Specifies the value of the `X-XSS-Protection` header
@@ -219,27 +220,27 @@ devture_woodpecker_ci_server_container_additional_networks: []
 # Learn more about it is here:
 # - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
 # - https://portswigger.net/web-security/cross-site-scripting/reflected
-devture_woodpecker_ci_server_http_header_xss_protection: "1; mode=block"
+woodpecker_ci_server_http_header_xss_protection: "1; mode=block"
 
 # Specifies the value of the `X-Frame-Options` header which controls whether framing can happen.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-devture_woodpecker_ci_server_http_header_frame_options: SAMEORIGIN
+woodpecker_ci_server_http_header_frame_options: SAMEORIGIN
 
 # Specifies the value of the `X-Content-Type-Options` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-devture_woodpecker_ci_server_http_header_content_type_options: nosniff
+woodpecker_ci_server_http_header_content_type_options: nosniff
 
 # Specifies the value of the `Content-Security-Policy` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-devture_woodpecker_ci_server_http_header_content_security_policy: frame-ancestors 'self'
+woodpecker_ci_server_http_header_content_security_policy: frame-ancestors 'self'
 
 # Specifies the value of the `Permission-Policy` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permission-Policy
-devture_woodpecker_ci_server_http_header_content_permission_policy: "{{ 'interest-cohort=()' if devture_woodpecker_ci_server_floc_optout_enabled else '' }}"
+woodpecker_ci_server_http_header_content_permission_policy: "{{ 'interest-cohort=()' if woodpecker_ci_server_floc_optout_enabled else '' }}"
 
 # Specifies the value of the `Strict-Transport-Security` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-devture_woodpecker_ci_server_http_header_strict_transport_security: "max-age=31536000; includeSubDomains{{ '; preload' if devture_woodpecker_ci_server_hsts_preload_enabled else '' }}"
+woodpecker_ci_server_http_header_strict_transport_security: "max-age=31536000; includeSubDomains{{ '; preload' if woodpecker_ci_server_hsts_preload_enabled else '' }}"
 
 # Controls whether to send a "Permissions-Policy interest-cohort=();" header along with all responses
 #
@@ -249,8 +250,8 @@ devture_woodpecker_ci_server_http_header_strict_transport_security: "max-age=315
 # - https://amifloced.org/
 #
 # Of course, a better solution is to just stop using browsers (like Chrome), which participate in such tracking practices.
-# See: `devture_woodpecker_ci_server_content_permission_policy`
-devture_woodpecker_ci_server_floc_optout_enabled: true
+# See: `woodpecker_ci_server_content_permission_policy`
+woodpecker_ci_server_floc_optout_enabled: true
 
 # Controls if HSTS preloading is enabled
 #
@@ -261,5 +262,5 @@ devture_woodpecker_ci_server_floc_optout_enabled: true
 # - https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
 # - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
 # - https://hstspreload.org/#opt-in
-# See: `devture_woodpecker_ci_server_http_header_strict_transport_security`
-devture_woodpecker_ci_server_hsts_preload_enabled: false
+# See: `woodpecker_ci_server_http_header_strict_transport_security`
+woodpecker_ci_server_hsts_preload_enabled: false

@@ -5,18 +5,18 @@
     path: "{{ item }}"
     state: directory
     mode: "0750"
-    owner: "{{ devture_woodpecker_ci_server_uid }}"
-    group: "{{ devture_woodpecker_ci_server_gid }}"
+    owner: "{{ woodpecker_ci_server_uid }}"
+    group: "{{ woodpecker_ci_server_gid }}"
   with_items:
-    - "{{ devture_woodpecker_ci_server_base_path }}"
-    - "{{ devture_woodpecker_ci_server_data_dir_path }}"
+    - "{{ woodpecker_ci_server_base_path }}"
+    - "{{ woodpecker_ci_server_data_dir_path }}"
 
 - name: Ensure Woodpecker CI server support files created
   ansible.builtin.template:
     src: "{{ role_path }}/templates/{{ item }}.j2"
-    dest: "{{ devture_woodpecker_ci_server_base_path }}/{{ item }}"
-    owner: "{{ devture_woodpecker_ci_server_uid }}"
-    group: "{{ devture_woodpecker_ci_server_gid }}"
+    dest: "{{ woodpecker_ci_server_base_path }}/{{ item }}"
+    owner: "{{ woodpecker_ci_server_uid }}"
+    group: "{{ woodpecker_ci_server_gid }}"
     mode: 0640
   with_items:
     - env
@@ -24,18 +24,18 @@
 
 - name: Ensure Woodpecker CI server image is pulled
   community.docker.docker_image:
-    name: "{{ devture_woodpecker_ci_server_container_image }}"
+    name: "{{ woodpecker_ci_server_container_image }}"
     source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
-    force_source: "{{ devture_woodpecker_ci_server_container_image_force_pull if ansible_version.major > 2 or ansible_version.minor >= 8 else omit }}"
-    force: "{{ omit if ansible_version.major > 2 or ansible_version.minor >= 8 else devture_woodpecker_ci_server_container_image_force_pull }}"
+    force_source: "{{ woodpecker_ci_server_container_image_force_pull if ansible_version.major > 2 or ansible_version.minor >= 8 else omit }}"
+    force: "{{ omit if ansible_version.major > 2 or ansible_version.minor >= 8 else woodpecker_ci_server_container_image_force_pull }}"
 
 - name: Ensure Woodpecker CI server container network is created
   community.general.docker_network:
-    name: "{{ devture_woodpecker_ci_server_container_network }}"
+    name: "{{ woodpecker_ci_server_container_network }}"
     driver: bridge
 
 - name: Ensure Woodpecker CI server systemd service installed
   ansible.builtin.template:
     src: "{{ role_path }}/templates/woodpecker-ci-server.service.j2"
-    dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ devture_woodpecker_ci_server_identifier }}.service"
+    dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ woodpecker_ci_server_identifier }}.service"
     mode: 0640

@@ -1,58 +1,58 @@
-{% if devture_woodpecker_ci_server_container_labels_traefik_enabled %}
+{% if woodpecker_ci_server_container_labels_traefik_enabled %}
 traefik.enable=true
 
-{% if devture_woodpecker_ci_server_container_labels_traefik_docker_network %}
-traefik.docker.network={{ devture_woodpecker_ci_server_container_labels_traefik_docker_network }}
+{% if woodpecker_ci_server_container_labels_traefik_docker_network %}
+traefik.docker.network={{ woodpecker_ci_server_container_labels_traefik_docker_network }}
 {% endif %}
 
 {% set middlewares = [] %}
 
-{% if devture_woodpecker_ci_server_container_labels_traefik_path_prefix != '/' %}
-traefik.http.middlewares.{{ devture_woodpecker_ci_server_identifier }}-slashless-redirect.redirectregex.regex=({{ devture_woodpecker_ci_server_container_labels_traefik_path_prefix | quote }})$
-traefik.http.middlewares.{{ devture_woodpecker_ci_server_identifier }}-slashless-redirect.redirectregex.replacement=${1}/
-{% set middlewares = middlewares + [devture_woodpecker_ci_server_identifier + '-slashless-redirect'] %}
+{% if woodpecker_ci_server_container_labels_traefik_path_prefix != '/' %}
+traefik.http.middlewares.{{ woodpecker_ci_server_identifier }}-slashless-redirect.redirectregex.regex=({{ woodpecker_ci_server_container_labels_traefik_path_prefix | quote }})$
+traefik.http.middlewares.{{ woodpecker_ci_server_identifier }}-slashless-redirect.redirectregex.replacement=${1}/
+{% set middlewares = middlewares + [woodpecker_ci_server_identifier + '-slashless-redirect'] %}
 {% endif %}
 
-{% if devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers.keys() | length > 0 %}
-{% for name, value in devture_woodpecker_ci_server_container_labels_traefik_additional_response_headers.items() %}
-traefik.http.middlewares.{{ devture_woodpecker_ci_server_identifier }}-add-headers.headers.customresponseheaders.{{ name }}={{ value }}
+{% if woodpecker_ci_server_container_labels_traefik_additional_response_headers.keys() | length > 0 %}
+{% for name, value in woodpecker_ci_server_container_labels_traefik_additional_response_headers.items() %}
+traefik.http.middlewares.{{ woodpecker_ci_server_identifier }}-add-headers.headers.customresponseheaders.{{ name }}={{ value }}
 {% endfor %}
-{% set middlewares = middlewares + [devture_woodpecker_ci_server_identifier + '-add-headers'] %}
+{% set middlewares = middlewares + [woodpecker_ci_server_identifier + '-add-headers'] %}
 {% endif %}
 
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}.rule={{ devture_woodpecker_ci_server_container_labels_traefik_rule }}
-{% if devture_woodpecker_ci_server_container_labels_traefik_priority | int > 0 %}
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}.priority={{ devture_woodpecker_ci_server_container_labels_traefik_priority }}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}.rule={{ woodpecker_ci_server_container_labels_traefik_rule }}
+{% if woodpecker_ci_server_container_labels_traefik_priority | int > 0 %}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}.priority={{ woodpecker_ci_server_container_labels_traefik_priority }}
 {% endif %}
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}.service={{ devture_woodpecker_ci_server_identifier }}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}.service={{ woodpecker_ci_server_identifier }}
 {% if middlewares | length > 0 %}
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}.middlewares={{ middlewares | join(',') }}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}.middlewares={{ middlewares | join(',') }}
 {% endif %}
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}.entrypoints={{ devture_woodpecker_ci_server_container_labels_traefik_entrypoints }}
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}.tls={{ devture_woodpecker_ci_server_container_labels_traefik_tls | to_json }}
-{% if devture_woodpecker_ci_server_container_labels_traefik_tls %}
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}.tls.certResolver={{ devture_woodpecker_ci_server_container_labels_traefik_tls_certResolver }}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}.entrypoints={{ woodpecker_ci_server_container_labels_traefik_entrypoints }}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}.tls={{ woodpecker_ci_server_container_labels_traefik_tls | to_json }}
+{% if woodpecker_ci_server_container_labels_traefik_tls %}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}.tls.certResolver={{ woodpecker_ci_server_container_labels_traefik_tls_certResolver }}
 {% endif %}
 
-traefik.http.services.{{ devture_woodpecker_ci_server_identifier }}.loadbalancer.server.port=8000
+traefik.http.services.{{ woodpecker_ci_server_identifier }}.loadbalancer.server.port=8000
 
-{% if devture_woodpecker_ci_server_container_labels_traefik_grpc_enabled %}
+{% if woodpecker_ci_server_container_labels_traefik_grpc_enabled %}
 # gRPC
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.rule={{ devture_woodpecker_ci_server_container_labels_traefik_grpc_rule }}
-{% if devture_woodpecker_ci_server_container_labels_traefik_grpc_priority | int > 0 %}
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.priority={{ devture_woodpecker_ci_server_container_labels_traefik_grpc_priority }}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}-grpc.rule={{ woodpecker_ci_server_container_labels_traefik_grpc_rule }}
+{% if woodpecker_ci_server_container_labels_traefik_grpc_priority | int > 0 %}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}-grpc.priority={{ woodpecker_ci_server_container_labels_traefik_grpc_priority }}
 {% endif %}
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.service={{ devture_woodpecker_ci_server_identifier }}-grpc
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.entrypoints={{ devture_woodpecker_ci_server_container_labels_traefik_grpc_entrypoints }}
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.tls={{ devture_woodpecker_ci_server_container_labels_traefik_grpc_tls | to_json }}
-{% if devture_woodpecker_ci_server_container_labels_traefik_grpc_tls %}
-traefik.http.routers.{{ devture_woodpecker_ci_server_identifier }}-grpc.tls.certResolver={{ devture_woodpecker_ci_server_container_labels_traefik_grpc_tls_certResolver }}
-{% endif %}
-
-traefik.http.services.{{ devture_woodpecker_ci_server_identifier }}-grpc.loadbalancer.server.port={{ devture_woodpecker_ci_server_config_grpc_addr_port }}
-traefik.http.services.{{ devture_woodpecker_ci_server_identifier }}-grpc.loadbalancer.server.scheme=h2c
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}-grpc.service={{ woodpecker_ci_server_identifier }}-grpc
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}-grpc.entrypoints={{ woodpecker_ci_server_container_labels_traefik_grpc_entrypoints }}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}-grpc.tls={{ woodpecker_ci_server_container_labels_traefik_grpc_tls | to_json }}
+{% if woodpecker_ci_server_container_labels_traefik_grpc_tls %}
+traefik.http.routers.{{ woodpecker_ci_server_identifier }}-grpc.tls.certResolver={{ woodpecker_ci_server_container_labels_traefik_grpc_tls_certResolver }}
 {% endif %}
 
+traefik.http.services.{{ woodpecker_ci_server_identifier }}-grpc.loadbalancer.server.port={{ woodpecker_ci_server_config_grpc_addr_port }}
+traefik.http.services.{{ woodpecker_ci_server_identifier }}-grpc.loadbalancer.server.scheme=h2c
 {% endif %}
 
-{{ devture_woodpecker_ci_server_container_labels_additional_labels }}
+{% endif %}
+
+{{ woodpecker_ci_server_container_labels_additional_labels }}

@@ -2,24 +2,24 @@
 
 - name: Check existence of Woodpecker CI server systemd service
   ansible.builtin.stat:
-    path: "{{ devture_systemd_docker_base_systemd_path }}/{{ devture_woodpecker_ci_server_identifier }}.service"
-  register: devture_woodpecker_ci_server_service_stat
+    path: "{{ devture_systemd_docker_base_systemd_path }}/{{ woodpecker_ci_server_identifier }}.service"
+  register: woodpecker_ci_server_service_stat
 
-- when: devture_woodpecker_ci_server_service_stat.stat.exists | bool
+- when: woodpecker_ci_server_service_stat.stat.exists | bool
   block:
     - name: Ensure Woodpecker CI server systemd service is stopped
       ansible.builtin.service:
-        name: "{{ devture_woodpecker_ci_server_identifier }}"
+        name: "{{ woodpecker_ci_server_identifier }}"
         state: stopped
         enabled: false
         daemon_reload: true
 
     - name: Ensure Woodpecker CI server systemd service does not exists
       ansible.builtin.file:
-        path: "{{ devture_systemd_docker_base_systemd_path }}/{{ devture_woodpecker_ci_server_identifier }}.service"
+        path: "{{ devture_systemd_docker_base_systemd_path }}/{{ woodpecker_ci_server_identifier }}.service"
         state: absent
 
     - name: Ensure Woodpecker CI server path doesn't exist
       ansible.builtin.file:
-        path: "{{ devture_woodpecker_ci_server_base_path }}"
+        path: "{{ woodpecker_ci_server_base_path }}"
         state: absent

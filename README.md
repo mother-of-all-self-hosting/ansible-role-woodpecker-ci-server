@@ -4,6 +4,6 @@ This is an [Ansible](https://www.ansible.com/) role which installs the **server*
 
 This role *implicitly* depends on [`com.devture.ansible.role.systemd_docker_base`](https://github.com/devture/com.devture.ansible.role.systemd_docker_base).
 
-The **agent** component of Woodpecker CI is managed by a sibling role - [com.devture.ansible.role.woodpecker_ci_agent](https://github.com/devture/com.devture.ansible.role.woodpecker_ci_agent).
+The **agent** component of Woodpecker CI is managed by a sibling role - [mother-of-all-self-hosting/ansible-role-woodpecker-ci-agent](https://github.com/mother-of-all-self-hosting/ansible-role-woodpecker-ci-agent).
 
 For an Ansible playbook which integrates this role and makes it easier to use, see the [mash-playbook](https://github.com/mother-of-all-self-hosting/mash-playbook).

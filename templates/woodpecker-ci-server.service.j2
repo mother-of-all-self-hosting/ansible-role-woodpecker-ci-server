@@ -1,6 +1,6 @@
 [Unit]
 Description=Woodpecker CI Server
-{% for service in devture_woodpecker_ci_server_systemd_required_systemd_services_list %}
+{% for service in woodpecker_ci_server_systemd_required_systemd_services_list %}
 Requires={{ service }}
 After={{ service }}
 {% endfor %}
@@ -9,43 +9,43 @@ DefaultDependencies=no
 [Service]
 Type=simple
 Environment="HOME={{ devture_systemd_docker_base_systemd_unit_home_path }}"
-ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ devture_woodpecker_ci_server_identifier }} 2>/dev/null'
-ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ devture_woodpecker_ci_server_identifier }} 2>/dev/null'
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ woodpecker_ci_server_identifier }} 2>/dev/null'
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ woodpecker_ci_server_identifier }} 2>/dev/null'
 
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--rm \
-			--name={{ devture_woodpecker_ci_server_identifier }} \
+			--name={{ woodpecker_ci_server_identifier }} \
 			--log-driver=none \
-			--network={{ devture_woodpecker_ci_server_container_network }} \
-			--user={{ devture_woodpecker_ci_server_uid }}:{{ devture_woodpecker_ci_server_gid }} \
+			--network={{ woodpecker_ci_server_container_network }} \
+			--user={{ woodpecker_ci_server_uid }}:{{ woodpecker_ci_server_gid }} \
 			--cap-drop=ALL \
 			--read-only \
-			{% if devture_woodpecker_ci_server_http_bind_port != '' %}
-			-p {{ devture_woodpecker_ci_server_http_bind_port }}:80 \
+			{% if woodpecker_ci_server_http_bind_port != '' %}
+			-p {{ woodpecker_ci_server_http_bind_port }}:80 \
 			{% endif %}
-			{% if devture_woodpecker_ci_server_https_bind_port != '' %}
-			-p {{ devture_woodpecker_ci_server_https_bind_port }}:443 \
+			{% if woodpecker_ci_server_https_bind_port != '' %}
+			-p {{ woodpecker_ci_server_https_bind_port }}:443 \
 			{% endif %}
-			{% if devture_woodpecker_ci_server_container_add_host_domain_name %}
-			--add-host {{ devture_woodpecker_ci_server_container_add_host_domain_name }}:{{ devture_woodpecker_ci_server_container_add_host_ip_address }} \
+			{% if woodpecker_ci_server_container_add_host_domain_name %}
+			--add-host {{ woodpecker_ci_server_container_add_host_domain_name }}:{{ woodpecker_ci_server_container_add_host_ip_address }} \
 			{% endif %}
-			--env-file={{ devture_woodpecker_ci_server_base_path }}/env \
-			--label-file={{ devture_woodpecker_ci_server_base_path }}/labels \
-			--mount type=bind,src={{ devture_woodpecker_ci_server_data_dir_path }},dst=/data \
+			--env-file={{ woodpecker_ci_server_base_path }}/env \
+			--label-file={{ woodpecker_ci_server_base_path }}/labels \
+			--mount type=bind,src={{ woodpecker_ci_server_data_dir_path }},dst=/data \
 			--tmpfs=/tmp:rw,noexec,nosuid,size=128m \
-			{{ devture_woodpecker_ci_server_container_image }}
+			{{ woodpecker_ci_server_container_image }}
 
-{% for network in devture_woodpecker_ci_server_container_additional_networks %}
-ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} {{ devture_woodpecker_ci_server_identifier }}
+{% for network in woodpecker_ci_server_container_additional_networks %}
+ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} {{ woodpecker_ci_server_identifier }}
 {% endfor %}
 
-ExecStart={{ devture_systemd_docker_base_host_command_docker }} start --attach {{ devture_woodpecker_ci_server_identifier }}
+ExecStart={{ devture_systemd_docker_base_host_command_docker }} start --attach {{ woodpecker_ci_server_identifier }}
 
-ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ devture_woodpecker_ci_server_identifier }} 2>/dev/null'
-ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ devture_woodpecker_ci_server_identifier }} 2>/dev/null'
+ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} stop --time={{ devture_systemd_docker_base_container_stop_grace_time_seconds }} {{ woodpecker_ci_server_identifier }} 2>/dev/null'
+ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ woodpecker_ci_server_identifier }} 2>/dev/null'
 Restart=always
 RestartSec=30
-SyslogIdentifier={{ devture_woodpecker_ci_server_identifier }}
+SyslogIdentifier={{ woodpecker_ci_server_identifier }}
 
 [Install]
 WantedBy=multi-user.target

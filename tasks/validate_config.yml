@@ -7,7 +7,7 @@
       Please change your configuration to rename the variable (`{{ item.old }}` -> `{{ item.new }}`).
   when: "item.old in vars"
   with_items:
-    - {'old': 'devture_woodpecker_ci_server_server_fqn', 'new': 'devture_woodpecker_ci_server_hostname'}
+    - {'old': 'woodpecker_ci_server_server_fqn', 'new': 'woodpecker_ci_server_hostname'}
 
 - name: Fail if required Woodpecker CI server settings not defined
   ansible.builtin.fail:
@@ -15,23 +15,23 @@
       You need to define a required configuration setting (`{{ item }}`) for using this role.
   when: "vars[item] == ''"
   with_items:
-    - devture_woodpecker_ci_server_uid
-    - devture_woodpecker_ci_server_gid
-    - devture_woodpecker_ci_server_hostname
-    - devture_woodpecker_ci_server_config_agent_secret
-    - devture_woodpecker_ci_server_provider
+    - woodpecker_ci_server_uid
+    - woodpecker_ci_server_gid
+    - woodpecker_ci_server_hostname
+    - woodpecker_ci_server_config_agent_secret
+    - woodpecker_ci_server_provider
 
 - name: Fail if required Woodpecker CI server + Gitea settings not defined
   ansible.builtin.fail:
     msg: >-
       You need to define a required configuration setting (`{{ item }}`) for using this role.
-  when: "devture_woodpecker_ci_server_provider == 'gitea' and vars[item] == ''"
+  when: "woodpecker_ci_server_provider == 'gitea' and vars[item] == ''"
   with_items:
-    - devture_woodpecker_ci_server_config_gitea_url
-    - devture_woodpecker_ci_server_config_gitea_client
-    - devture_woodpecker_ci_server_config_gitea_secret
+    - woodpecker_ci_server_config_gitea_url
+    - woodpecker_ci_server_config_gitea_client
+    - woodpecker_ci_server_config_gitea_secret
 
-- when: devture_woodpecker_ci_server_container_labels_traefik_enabled | bool
+- when: woodpecker_ci_server_container_labels_traefik_enabled | bool
   block:
     - name: Fail if required Gitea Traefik settings not defined
       ansible.builtin.fail:
@@ -39,14 +39,14 @@
           You need to define a required configuration setting (`{{ item }}`).
       when: "vars[item] == ''"
       with_items:
-        - devture_woodpecker_ci_server_container_labels_traefik_hostname
-        - devture_woodpecker_ci_server_container_labels_traefik_path_prefix
+        - woodpecker_ci_server_container_labels_traefik_hostname
+        - woodpecker_ci_server_container_labels_traefik_path_prefix
 
     # We ensure it doesn't end with a slash, because we handle both (slash and no-slash).
-    # Knowing that `devture_woodpecker_ci_server_container_labels_traefik_path_prefix` does not end with a slash
+    # Knowing that `woodpecker_ci_server_container_labels_traefik_path_prefix` does not end with a slash
     # ensures we know how to set these routes up without having to do "does it end with a slash" checks elsewhere.
-    - name: Fail if devture_woodpecker_ci_server_container_labels_traefik_path_prefix ends with a slash
+    - name: Fail if woodpecker_ci_server_container_labels_traefik_path_prefix ends with a slash
       ansible.builtin.fail:
         msg: >-
-          devture_woodpecker_ci_server_container_labels_traefik_path_prefix (`{{ devture_woodpecker_ci_server_container_labels_traefik_path_prefix }}`) must either be `/` or not end with a slash (e.g. `/ci`).
-      when: "devture_woodpecker_ci_server_container_labels_traefik_path_prefix != '/' and devture_woodpecker_ci_server_container_labels_traefik_path_prefix[-1] == '/'"
+          woodpecker_ci_server_container_labels_traefik_path_prefix (`{{ woodpecker_ci_server_container_labels_traefik_path_prefix }}`) must either be `/` or not end with a slash (e.g. `/ci`).
+      when: "woodpecker_ci_server_container_labels_traefik_path_prefix != '/' and woodpecker_ci_server_container_labels_traefik_path_prefix[-1] == '/'"
