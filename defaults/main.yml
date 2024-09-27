@@ -138,7 +138,10 @@ woodpecker_ci_server_database_driver: sqlite3
 # This is dependant on `woodpecker_ci_server_database_driver`
 woodpecker_ci_server_database_datasource: /data/database.sqlite
 
-woodpecker_ci_server_systemd_required_systemd_services_list: ['docker.service']
+woodpecker_ci_server_systemd_required_systemd_services_list: "{{ woodpecker_ci_server_systemd_required_systemd_services_list_default + woodpecker_ci_server_systemd_required_systemd_services_list_auto + woodpecker_ci_server_systemd_required_systemd_services_list_custom }}"
+woodpecker_ci_server_systemd_required_systemd_services_list_default: "{{ [devture_systemd_docker_base_docker_service_name] if devture_systemd_docker_base_docker_service_name else [] }}"
+woodpecker_ci_server_systemd_required_systemd_services_list_auto: []
+woodpecker_ci_server_systemd_required_systemd_services_list_custom: []
 
 # woodpecker_ci_server_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `roles/custom/gitea/templates/labels.j2` for details.
