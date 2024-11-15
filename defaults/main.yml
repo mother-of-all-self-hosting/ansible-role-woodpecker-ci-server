@@ -158,6 +158,11 @@ woodpecker_ci_server_container_labels_traefik_entrypoints: web-secure
 woodpecker_ci_server_container_labels_traefik_tls: "{{ woodpecker_ci_server_container_labels_traefik_entrypoints != 'web' }}"
 woodpecker_ci_server_container_labels_traefik_tls_certResolver: default  # noqa var-naming
 
+# Controls whether a compression middleware will be injected into the middlewares list.
+# This compression middleware is supposed to be defined elsewhere (using labels or a File provider, etc.) and is merely referenced by this router.
+woodpecker_ci_server_container_labels_traefik_compression_middleware_enabled: false
+woodpecker_ci_server_container_labels_traefik_compression_middleware_name: ""
+
 # woodpecker_ci_server_container_labels_traefik_grpc_enabled controls whether
 # to expose the gRPC port externally.  Set this to true if you plan to run Woodpecker agents
 # on separate machines/networks.

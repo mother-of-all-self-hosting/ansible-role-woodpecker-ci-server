@@ -7,6 +7,10 @@ traefik.docker.network={{ woodpecker_ci_server_container_labels_traefik_docker_n
 
 {% set middlewares = [] %}
 
+{% if woodpecker_ci_server_container_labels_traefik_compression_middleware_enabled %}
+{% set middlewares = middlewares + [woodpecker_ci_server_container_labels_traefik_compression_middleware_name] %}
+{% endif %}
+
 {% if woodpecker_ci_server_container_labels_traefik_path_prefix != '/' %}
 traefik.http.middlewares.{{ woodpecker_ci_server_identifier }}-slashless-redirect.redirectregex.regex=({{ woodpecker_ci_server_container_labels_traefik_path_prefix | quote }})$
 traefik.http.middlewares.{{ woodpecker_ci_server_identifier }}-slashless-redirect.redirectregex.replacement=${1}/

@@ -12,14 +12,15 @@
 - name: Fail if required Woodpecker CI server settings not defined
   ansible.builtin.fail:
     msg: >-
-      You need to define a required configuration setting (`{{ item }}`) for using this role.
-  when: "vars[item] == ''"
+      You need to define a required configuration setting (`{{ item.name }}`) for using this role.
+  when: "item.when | bool and vars[item.name] | length == 0"
   with_items:
-    - woodpecker_ci_server_uid
-    - woodpecker_ci_server_gid
-    - woodpecker_ci_server_hostname
-    - woodpecker_ci_server_config_agent_secret
-    - woodpecker_ci_server_provider
+    - {'name': 'woodpecker_ci_server_hostname', when: true}
+    - {'name': 'woodpecker_ci_server_uid', when: true}
+    - {'name': 'woodpecker_ci_server_gid', when: true}
+    - {'name': 'woodpecker_ci_server_config_agent_secret', when: true}
+    - {'name': 'woodpecker_ci_server_provider', when: true}
+    - {'name': 'woodpecker_ci_server_container_labels_traefik_compression_middleware_name', when: "{{ woodpecker_ci_server_container_labels_traefik_compression_middleware_enabled }}"}
 
 - name: Fail if required Woodpecker CI server + Gitea settings not defined
   ansible.builtin.fail:
