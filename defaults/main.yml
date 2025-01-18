@@ -4,7 +4,7 @@
 
 woodpecker_ci_server_enabled: true
 
-woodpecker_ci_server_version: v2.8.0
+woodpecker_ci_server_version: v2.8.3
 
 woodpecker_ci_server_identifier: woodpecker-ci-server
 
