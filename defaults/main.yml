@@ -88,7 +88,7 @@ woodpecker_ci_server_config_grpc_addr: ":{{ woodpecker_ci_server_config_grpc_add
 # See: https://woodpecker-ci.org/docs/administration/server-config#woodpecker_log_level
 woodpecker_ci_server_config_log_level: info
 
-# woodpecker_ci_server_provider specifies the source-code provider (Github, Gitlab, Gitea, ..)
+# woodpecker_ci_server_provider specifies the source-code provider (Github, Gitlab, Gitea, Forgejo, ..)
 # See: https://woodpecker-ci.org/docs/administration/vcs/overview
 woodpecker_ci_server_provider: ''
 
@@ -98,7 +98,7 @@ woodpecker_ci_server_provider: ''
 ######################################
 
 # woodpecker_ci_server_gitea_server specifies the URL to the Gitea server.
-# Example: https://woodpecker-ci.org/docs/administration/vcs/gitea#woodpecker_gitea_url
+# Example: https://woodpecker-ci.org/docs/administration/forges/gitea#woodpecker_gitea_url
 woodpecker_ci_server_config_gitea_url: ''
 
 woodpecker_ci_server_config_gitea_client: ''
@@ -112,7 +112,7 @@ woodpecker_ci_server_config_gitea_skip_verify: false
 
 
 ######################################
-# github-specific                     #
+# github-specific                    #
 ######################################
 
 woodpecker_ci_server_config_github_url: 'https://github.com'
@@ -122,7 +122,25 @@ woodpecker_ci_server_config_github_secret: ''
 woodpecker_ci_server_config_github_skip_verify: false
 
 ######################################
-# /github-specific                    #
+# /github-specific                   #
+######################################
+
+
+######################################
+# Forgejo-specific                   #
+######################################
+
+# woodpecker_ci_server_forgejo_server specifies the URL to the Forgejo server.
+# Example: https://woodpecker-ci.org/docs/administration/forges/forgejo#woodpecker_forgejo_url
+woodpecker_ci_server_config_forgejo_url: ''
+
+woodpecker_ci_server_config_forgejo_client: ''
+woodpecker_ci_server_config_forgejo_secret: ''
+
+woodpecker_ci_server_config_forgejo_skip_verify: false
+
+######################################
+# /Forgejo-specific                  #
 ######################################
 
 
