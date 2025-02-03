@@ -143,7 +143,10 @@ woodpecker_ci_server_config_forgejo_skip_verify: false
 # /Forgejo-specific                  #
 ######################################
 
-
+# Docker images to run in privileged mode. Only change if you are sure what you do!
+# You should specify the tag of your images too, as this enforces exact matches.
+# Example: `woodpeckerci/plugin-docker-buildx:5.2.0`
+woodpecker_ci_server_config_plugins_privileged: ''
 
 
 # woodpecker_ci_server_database_driver configures the database driver
