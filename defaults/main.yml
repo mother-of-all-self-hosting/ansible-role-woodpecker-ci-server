@@ -4,6 +4,7 @@
 
 woodpecker_ci_server_enabled: true
 
+# renovate: datasource=docker depName=woodpeckerci/woodpecker-server
 woodpecker_ci_server_version: v3.1.0
 
 woodpecker_ci_server_identifier: woodpecker-ci-server
