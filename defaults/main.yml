@@ -32,8 +32,10 @@ woodpecker_ci_server_gid: ''
 
 woodpecker_ci_server_container_image: "{{ woodpecker_ci_server_container_image_registry_prefix }}woodpeckerci/woodpecker-server:{{ woodpecker_ci_server_container_image_tag }}"
 woodpecker_ci_server_container_image_tag: "{{ woodpecker_ci_server_version }}"
+woodpecker_ci_server_container_image_registry_prefix: "{{ woodpecker_ci_server_container_image_registry_prefix_upstream }}"
+woodpecker_ci_server_container_image_registry_prefix_upstream: "{{ woodpecker_ci_server_container_image_registry_prefix_upstream_default }}"
+woodpecker_ci_server_container_image_registry_prefix_upstream_default: docker.io/
 woodpecker_ci_server_container_image_force_pull: "{{ woodpecker_ci_server_container_image.endswith(':latest') }}"
-woodpecker_ci_server_container_image_registry_prefix: docker.io/
 
 woodpecker_ci_server_base_path: "/{{ woodpecker_ci_server_identifier }}"
 woodpecker_ci_server_data_dir_path: "{{ woodpecker_ci_server_base_path }}/data"
