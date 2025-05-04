@@ -24,27 +24,27 @@ ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_s
 ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ woodpecker_ci_server_identifier }} 2>/dev/null'
 
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
-			--rm \
-			--name={{ woodpecker_ci_server_identifier }} \
-			--log-driver=none \
-			--network={{ woodpecker_ci_server_container_network }} \
-			--user={{ woodpecker_ci_server_uid }}:{{ woodpecker_ci_server_gid }} \
-			--cap-drop=ALL \
-			--read-only \
-			{% if woodpecker_ci_server_http_bind_port != '' %}
-			-p {{ woodpecker_ci_server_http_bind_port }}:80 \
-			{% endif %}
-			{% if woodpecker_ci_server_https_bind_port != '' %}
-			-p {{ woodpecker_ci_server_https_bind_port }}:443 \
-			{% endif %}
-			{% if woodpecker_ci_server_container_add_host_domain_name %}
-			--add-host {{ woodpecker_ci_server_container_add_host_domain_name }}:{{ woodpecker_ci_server_container_add_host_ip_address }} \
-			{% endif %}
-			--env-file={{ woodpecker_ci_server_base_path }}/env \
-			--label-file={{ woodpecker_ci_server_base_path }}/labels \
-			--mount type=bind,src={{ woodpecker_ci_server_data_dir_path }},dst=/data \
-			--tmpfs=/tmp:rw,noexec,nosuid,size=128m \
-			{{ woodpecker_ci_server_container_image }}
+      --rm \
+      --name={{ woodpecker_ci_server_identifier }} \
+      --log-driver=none \
+      --network={{ woodpecker_ci_server_container_network }} \
+      --user={{ woodpecker_ci_server_uid }}:{{ woodpecker_ci_server_gid }} \
+      --cap-drop=ALL \
+      --read-only \
+      {% if woodpecker_ci_server_http_bind_port != '' %}
+      -p {{ woodpecker_ci_server_http_bind_port }}:80 \
+      {% endif %}
+      {% if woodpecker_ci_server_https_bind_port != '' %}
+      -p {{ woodpecker_ci_server_https_bind_port }}:443 \
+      {% endif %}
+      {% if woodpecker_ci_server_container_add_host_domain_name %}
+      --add-host {{ woodpecker_ci_server_container_add_host_domain_name }}:{{ woodpecker_ci_server_container_add_host_ip_address }} \
+      {% endif %}
+      --env-file={{ woodpecker_ci_server_base_path }}/env \
+      --label-file={{ woodpecker_ci_server_base_path }}/labels \
+      --mount type=bind,src={{ woodpecker_ci_server_data_dir_path }},dst=/data \
+      --tmpfs=/tmp:rw,noexec,nosuid,size=128m \
+      {{ woodpecker_ci_server_container_image }}
 
 {% for network in woodpecker_ci_server_container_additional_networks %}
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} {{ woodpecker_ci_server_identifier }}
