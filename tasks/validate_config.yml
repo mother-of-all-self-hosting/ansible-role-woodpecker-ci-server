@@ -12,6 +12,10 @@
   when: "item.old in vars"
   with_items:
     - {'old': 'woodpecker_ci_server_server_fqn', 'new': 'woodpecker_ci_server_hostname'}
+    - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list', 'new': 'woodpecker_ci_server_systemd_required_services_list'}
+    - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list_default', 'new': 'woodpecker_ci_server_systemd_required_services_list_default'}
+    - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list_auto', 'new': 'woodpecker_ci_server_systemd_required_services_list_auto'}
+    - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list_custom', 'new': 'woodpecker_ci_server_systemd_required_services_list_custom'}
 
 - name: Fail if required Woodpecker CI server settings not defined
   ansible.builtin.fail:
