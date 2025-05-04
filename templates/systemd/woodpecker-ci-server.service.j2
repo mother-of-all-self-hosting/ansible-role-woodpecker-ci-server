@@ -27,10 +27,10 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       --rm \
       --name={{ woodpecker_ci_server_identifier }} \
       --log-driver=none \
-      --network={{ woodpecker_ci_server_container_network }} \
       --user={{ woodpecker_ci_server_uid }}:{{ woodpecker_ci_server_gid }} \
       --cap-drop=ALL \
       --read-only \
+      --network={{ woodpecker_ci_server_container_network }} \
       {% if woodpecker_ci_server_http_bind_port != '' %}
       -p {{ woodpecker_ci_server_http_bind_port }}:80 \
       {% endif %}
