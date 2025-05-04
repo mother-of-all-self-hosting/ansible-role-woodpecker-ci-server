@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Slavi Pantaleev
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 ---
 
 - tags:
@@ -18,4 +22,3 @@
   block:
     - when: not woodpecker_ci_server_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
-

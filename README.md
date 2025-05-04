@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022 - 2023 Slavi Pantaleev
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 # Woodpecker CI Server Ansible role
 
 This is an [Ansible](https://www.ansible.com/) role which installs the **server** component of [Woodpecker CI](https://woodpecker-ci.org/) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
