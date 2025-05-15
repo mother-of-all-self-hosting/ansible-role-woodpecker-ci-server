@@ -15,7 +15,7 @@
     - "{{ woodpecker_ci_server_base_path }}"
     - "{{ woodpecker_ci_server_data_dir_path }}"
 
-- name: Ensure Woodpecker CI server support files created
+- name: Ensure Woodpecker CI server support files installed
   ansible.builtin.template:
     src: "{{ role_path }}/templates/{{ item }}.j2"
     dest: "{{ woodpecker_ci_server_base_path }}/{{ item }}"
@@ -40,7 +40,7 @@
     driver: bridge
     driver_options: "{{ devture_systemd_docker_base_container_networks_driver_options }}"
 
-- name: Ensure Woodpecker CI server systemd service installed
+- name: Ensure Woodpecker CI server systemd service is present
   ansible.builtin.template:
     src: "{{ role_path }}/templates/systemd/woodpecker-ci-server.service.j2"
     dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ woodpecker_ci_server_identifier }}.service"
