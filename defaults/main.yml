@@ -246,13 +246,13 @@ woodpecker_ci_server_database_driver: sqlite3
 # This is dependant on `woodpecker_ci_server_database_driver`
 woodpecker_ci_server_database_datasource: /data/database.sqlite
 
-# woodpecker_ci_server_container_additional_environment_variables contains a multiline string with additional environment variables to pass to the container.
+# woodpecker_ci_server_environment_variables_additional_variables contains a multiline string with additional environment variables to pass to the container.
 #
 # Example:
-# woodpecker_ci_server_container_additional_environment_variables: |
+# woodpecker_ci_server_environment_variables_additional_variables: |
 #   VAR=1
 #   ANOTHER=value
-woodpecker_ci_server_container_additional_environment_variables: ''
+woodpecker_ci_server_environment_variables_additional_variables: ''
 
 ######################################
 # Gitea-specific                     #

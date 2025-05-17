@@ -16,6 +16,7 @@
     - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list_default', 'new': 'woodpecker_ci_server_systemd_required_services_list_default'}
     - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list_auto', 'new': 'woodpecker_ci_server_systemd_required_services_list_auto'}
     - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list_custom', 'new': 'woodpecker_ci_server_systemd_required_services_list_custom'}
+    - {'old': 'woodpecker_ci_server_container_additional_environment_variables', 'new': 'woodpecker_ci_server_environment_variables_additional_variables'}
 
 - name: Fail if required Woodpecker CI server settings not defined
   ansible.builtin.fail:
