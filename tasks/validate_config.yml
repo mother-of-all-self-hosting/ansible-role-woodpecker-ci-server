@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: (Deprecation) Catch and report renamed settings
   ansible.builtin.fail:
     msg: >-
@@ -11,12 +10,12 @@
       Please change your configuration to rename the variable (`{{ item.old }}` -> `{{ item.new }}`).
   when: "item.old in vars"
   with_items:
-    - {'old': 'woodpecker_ci_server_server_fqn', 'new': 'woodpecker_ci_server_hostname'}
-    - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list', 'new': 'woodpecker_ci_server_systemd_required_services_list'}
-    - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list_default', 'new': 'woodpecker_ci_server_systemd_required_services_list_default'}
-    - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list_auto', 'new': 'woodpecker_ci_server_systemd_required_services_list_auto'}
-    - {'old': 'woodpecker_ci_server_systemd_required_systemd_services_list_custom', 'new': 'woodpecker_ci_server_systemd_required_services_list_custom'}
-    - {'old': 'woodpecker_ci_server_container_additional_environment_variables', 'new': 'woodpecker_ci_server_environment_variables_additional_variables'}
+    - { "old": "woodpecker_ci_server_server_fqn", "new": "woodpecker_ci_server_hostname" }
+    - { "old": "woodpecker_ci_server_systemd_required_systemd_services_list", "new": "woodpecker_ci_server_systemd_required_services_list" }
+    - { "old": "woodpecker_ci_server_systemd_required_systemd_services_list_default", "new": "woodpecker_ci_server_systemd_required_services_list_default" }
+    - { "old": "woodpecker_ci_server_systemd_required_systemd_services_list_auto", "new": "woodpecker_ci_server_systemd_required_services_list_auto" }
+    - { "old": "woodpecker_ci_server_systemd_required_systemd_services_list_custom", "new": "woodpecker_ci_server_systemd_required_services_list_custom" }
+    - { "old": "woodpecker_ci_server_container_additional_environment_variables", "new": "woodpecker_ci_server_environment_variables_additional_variables" }
 
 - name: Fail if required Woodpecker CI server settings not defined
   ansible.builtin.fail:
@@ -24,12 +23,13 @@
       You need to define a required configuration setting (`{{ item.name }}`) for using this role.
   when: "item.when | bool and vars[item.name] | length == 0"
   with_items:
-    - {'name': 'woodpecker_ci_server_hostname', when: true}
-    - {'name': 'woodpecker_ci_server_uid', when: true}
-    - {'name': 'woodpecker_ci_server_gid', when: true}
-    - {'name': 'woodpecker_ci_server_config_agent_secret', when: true}
-    - {'name': 'woodpecker_ci_server_provider', when: true}
-    - {'name': 'woodpecker_ci_server_container_labels_traefik_compression_middleware_name', when: "{{ woodpecker_ci_server_container_labels_traefik_compression_middleware_enabled }}"}
+    - { "name": "woodpecker_ci_server_hostname", when: true }
+    - { "name": "woodpecker_ci_server_uid", when: true }
+    - { "name": "woodpecker_ci_server_gid", when: true }
+    - { "name": "woodpecker_ci_server_config_agent_secret", when: true }
+    - { "name": "woodpecker_ci_server_provider", when: true }
+    - "name": "woodpecker_ci_server_container_labels_traefik_compression_middleware_name"
+      when: "{{ woodpecker_ci_server_container_labels_traefik_compression_middleware_enabled }}"
 
 - name: Fail if required Woodpecker CI server + Gitea settings not defined
   ansible.builtin.fail:
@@ -41,7 +41,8 @@
     - woodpecker_ci_server_config_gitea_client
     - woodpecker_ci_server_config_gitea_secret
 
-- when: woodpecker_ci_server_container_labels_traefik_enabled | bool
+- name: Run if Traefik is enabled
+  when: woodpecker_ci_server_container_labels_traefik_enabled | bool
   block:
     - name: Fail if required Gitea Traefik settings not defined
       ansible.builtin.fail:

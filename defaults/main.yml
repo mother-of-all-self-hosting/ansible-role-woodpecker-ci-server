@@ -243,7 +243,7 @@ woodpecker_ci_server_config_plugins_privileged: ''
 woodpecker_ci_server_database_driver: sqlite3
 
 # woodpecker_ci_server_database_datasource configures the URI or filepath where the database can be reached.
-# This is dependant on `woodpecker_ci_server_database_driver`
+# This is dependent on `woodpecker_ci_server_database_driver`
 woodpecker_ci_server_database_datasource: /data/database.sqlite
 
 # woodpecker_ci_server_environment_variables_additional_variables contains a multiline string with additional environment variables to pass to the container.

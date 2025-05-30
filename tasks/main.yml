@@ -3,27 +3,25 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-
 - name: Perform Woodpecker CI Server installation tasks
-  block:
-    - name: Validate Woodpecker CI Server configuration
-      when: woodpecker_ci_server_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
-
-    - name: Install Woodpecker CI Server
-      when: woodpecker_ci_server_enabled | bool
-      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
   tags:
     - setup-all
     - setup-woodpecker-ci-server
     - install-all
     - install-woodpecker-ci-server
+  block:
+    - name: Validate Woodpecker CI Server configuration
+      when: woodpecker_ci_server_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
+    - name: Install Woodpecker CI Server
+      when: woodpecker_ci_server_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
 
 - name: Perform Woodpecker CI Server uninstallation tasks
+  tags:
+    - setup-all
+    - setup-woodpecker-ci-server
   block:
     - name: Uninstall Woodpecker CI Server
       when: not woodpecker_ci_server_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
-  tags:
-    - setup-all
-    - setup-woodpecker-ci-server
