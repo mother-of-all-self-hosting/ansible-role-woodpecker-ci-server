@@ -271,7 +271,6 @@ woodpecker_ci_server_config_gitea_skip_verify: false
 # /Gitea-specific                    #
 ######################################
 
-
 ######################################
 # github-specific                    #
 ######################################
@@ -285,7 +284,6 @@ woodpecker_ci_server_config_github_skip_verify: false
 ######################################
 # /github-specific                   #
 ######################################
-
 
 ######################################
 # Forgejo-specific                   #
