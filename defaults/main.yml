@@ -17,7 +17,7 @@ woodpecker_ci_server_base_path: "/{{ woodpecker_ci_server_identifier }}"
 woodpecker_ci_server_data_dir_path: "{{ woodpecker_ci_server_base_path }}/data"
 
 # renovate: datasource=docker depName=woodpeckerci/woodpecker-server
-woodpecker_ci_server_version: v3.6.0
+woodpecker_ci_server_version: v3.7.0
 
 woodpecker_ci_server_uid: ''
 woodpecker_ci_server_gid: ''
