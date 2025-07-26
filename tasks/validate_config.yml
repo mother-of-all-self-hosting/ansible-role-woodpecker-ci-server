@@ -35,7 +35,7 @@
   ansible.builtin.fail:
     msg: >-
       You need to define a required configuration setting (`{{ item }}`).
-  when: "woodpecker_ci_server_provider == 'gitea' and vars[item] == ''"
+  when: "woodpecker_ci_server_provider == 'gitea' and lookup('vars', item, default='') | string | length == 0"
   with_items:
     - woodpecker_ci_server_config_gitea_url
     - woodpecker_ci_server_config_gitea_client
