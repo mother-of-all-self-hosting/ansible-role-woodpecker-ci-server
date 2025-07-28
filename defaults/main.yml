@@ -91,8 +91,14 @@ woodpecker_ci_server_container_labels_traefik_grpc_entrypoints: web-secure
 woodpecker_ci_server_container_labels_traefik_grpc_tls: "{{ woodpecker_ci_server_container_labels_traefik_grpc_entrypoints != 'web' }}"
 woodpecker_ci_server_container_labels_traefik_grpc_tls_certResolver: default  # noqa var-naming
 
+# Controls which additional headers to attach to all HTTP requests.
+# To add your own custom request headers, use `woodpecker_ci_server_container_labels_traefik_additional_request_headers_custom`
+woodpecker_ci_server_container_labels_traefik_additional_request_headers: "{{ woodpecker_ci_server_container_labels_traefik_additional_request_headers_auto | combine(woodpecker_ci_server_container_labels_traefik_additional_request_headers_custom) }}"
+woodpecker_ci_server_container_labels_traefik_additional_request_headers_auto: {}
+woodpecker_ci_server_container_labels_traefik_additional_request_headers_custom: {}
+
 # Controls which additional headers to attach to all HTTP responses.
-# To add your own headers, use `woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom`
+# To add your own custom response headers, use `woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom`
 woodpecker_ci_server_container_labels_traefik_additional_response_headers: "{{ woodpecker_ci_server_container_labels_traefik_additional_response_headers_auto | combine(woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom) }}"
 woodpecker_ci_server_container_labels_traefik_additional_response_headers_auto: |
   {{

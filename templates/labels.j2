@@ -24,11 +24,18 @@ traefik.http.middlewares.{{ woodpecker_ci_server_identifier }}-slashless-redirec
 {% set middlewares = middlewares + [woodpecker_ci_server_identifier + '-slashless-redirect'] %}
 {% endif %}
 
+{% if woodpecker_ci_server_container_labels_traefik_additional_request_headers.keys() | length > 0 %}
+{% for name, value in woodpecker_ci_server_container_labels_traefik_additional_request_headers.items() %}
+traefik.http.middlewares.{{ woodpecker_ci_server_identifier }}-add-request-headers.headers.customrequestheaders.{{ name }}={{ value }}
+{% endfor %}
+{% set middlewares = middlewares + [woodpecker_ci_server_identifier + '-add-request-headers'] %}
+{% endif %}
+
 {% if woodpecker_ci_server_container_labels_traefik_additional_response_headers.keys() | length > 0 %}
 {% for name, value in woodpecker_ci_server_container_labels_traefik_additional_response_headers.items() %}
-traefik.http.middlewares.{{ woodpecker_ci_server_identifier }}-add-headers.headers.customresponseheaders.{{ name }}={{ value }}
+traefik.http.middlewares.{{ woodpecker_ci_server_identifier }}-add-response-headers.headers.customresponseheaders.{{ name }}={{ value }}
 {% endfor %}
-{% set middlewares = middlewares + [woodpecker_ci_server_identifier + '-add-headers'] %}
+{% set middlewares = middlewares + [woodpecker_ci_server_identifier + '-add-response-headers'] %}
 {% endif %}
 
 traefik.http.routers.{{ woodpecker_ci_server_identifier }}.rule={{ woodpecker_ci_server_container_labels_traefik_rule }}
