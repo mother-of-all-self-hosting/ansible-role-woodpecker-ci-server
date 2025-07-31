@@ -44,7 +44,7 @@
 - name: Run if Traefik is enabled
   when: woodpecker_ci_server_container_labels_traefik_enabled | bool
   block:
-    - name: Fail if required Gitea Traefik settings not defined
+    - name: Fail if Traefik settings required for Woodpecker CI server are not defined
       ansible.builtin.fail:
         msg: >-
           You need to define a required configuration setting (`{{ item }}`).
