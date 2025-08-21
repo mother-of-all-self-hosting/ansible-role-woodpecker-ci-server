@@ -260,9 +260,11 @@ woodpecker_ci_server_database_datasource: /data/database.sqlite
 #   ANOTHER=value
 woodpecker_ci_server_environment_variables_additional_variables: ''
 
-######################################
-# Gitea-specific                     #
-######################################
+########################################################################
+#                                                                      #
+# gitea                                                                #
+#                                                                      #
+########################################################################
 
 # woodpecker_ci_server_gitea_server specifies the URL to the Gitea server.
 # Example: https://woodpecker-ci.org/docs/administration/forges/gitea#woodpecker_gitea_url
@@ -273,13 +275,17 @@ woodpecker_ci_server_config_gitea_secret: ''
 
 woodpecker_ci_server_config_gitea_skip_verify: false
 
-######################################
-# /Gitea-specific                    #
-######################################
+########################################################################
+#                                                                      #
+# /gitea                                                               #
+#                                                                      #
+########################################################################
 
-######################################
-# github-specific                    #
-######################################
+########################################################################
+#                                                                      #
+# github                                                               #
+#                                                                      #
+########################################################################
 
 woodpecker_ci_server_config_github_url: 'https://github.com'
 
@@ -287,13 +293,17 @@ woodpecker_ci_server_config_github_client: ''
 woodpecker_ci_server_config_github_secret: ''
 woodpecker_ci_server_config_github_skip_verify: false
 
-######################################
-# /github-specific                   #
-######################################
+########################################################################
+#                                                                      #
+# /github                                                              #
+#                                                                      #
+########################################################################
 
-######################################
-# Forgejo-specific                   #
-######################################
+########################################################################
+#                                                                      #
+# forgejo                                                              #
+#                                                                      #
+########################################################################
 
 # woodpecker_ci_server_forgejo_server specifies the URL to the Forgejo server.
 # Example: https://woodpecker-ci.org/docs/administration/forges/forgejo#woodpecker_forgejo_url
@@ -304,6 +314,8 @@ woodpecker_ci_server_config_forgejo_secret: ''
 
 woodpecker_ci_server_config_forgejo_skip_verify: false
 
-######################################
-# /Forgejo-specific                  #
-######################################
+########################################################################
+#                                                                      #
+# /forgejo                                                             #
+#                                                                      #
+########################################################################
