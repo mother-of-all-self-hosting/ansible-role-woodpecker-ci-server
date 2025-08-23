@@ -174,7 +174,10 @@ woodpecker_ci_server_systemd_required_services_list_auto: []
 woodpecker_ci_server_systemd_required_services_list_custom: []
 
 # List of systemd services that the Woodpecker CI Server systemd service wants
-woodpecker_ci_server_systemd_wanted_services_list: []
+woodpecker_ci_server_systemd_wanted_services_list: "{{ woodpecker_ci_server_systemd_wanted_services_list_default + woodpecker_ci_server_systemd_wanted_services_list_auto + woodpecker_ci_server_systemd_wanted_services_list_custom }}"
+woodpecker_ci_server_systemd_wanted_services_list_default: []
+woodpecker_ci_server_systemd_wanted_services_list_auto: []
+woodpecker_ci_server_systemd_wanted_services_list_custom: []
 
 # woodpecker_ci_server_container_add_host_domain_name and woodpecker_ci_server_container_add_host_ip_address
 # allow you to add a new host entry (domain name to IP address mapping) to the container.
