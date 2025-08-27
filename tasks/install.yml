@@ -12,7 +12,7 @@
     group: "{{ woodpecker_ci_server_gid }}"
   with_items:
     - "{{ woodpecker_ci_server_base_path }}"
-    - "{{ woodpecker_ci_server_data_dir_path }}"
+    - "{{ woodpecker_ci_server_data_path }}"
 
 - name: Ensure Woodpecker CI server support files installed
   ansible.builtin.template:
