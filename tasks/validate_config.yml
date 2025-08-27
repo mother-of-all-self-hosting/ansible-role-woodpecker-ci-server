@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2022 - 2024 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2025 Suguru Hirahara
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -32,6 +33,12 @@
     - "name": "woodpecker_ci_server_container_labels_traefik_compression_middleware_name"
       when: "{{ woodpecker_ci_server_container_labels_traefik_compression_middleware_enabled }}"
 
+- name: Fail if Woodpecker CI database driver option is invalid
+  ansible.builtin.fail:
+    msg: >-
+      woodpecker_ci_server_database_driver must be 'sqlite3', 'postgres', or 'ymsql'
+  when: "woodpecker_ci_server_database_driver not in ['sqlite3', 'postgres', 'ymsql']"
+
 - name: Fail if required Woodpecker CI server + Gitea settings not defined
   ansible.builtin.fail:
     msg: >-
@@ -41,6 +48,25 @@
     - woodpecker_ci_server_config_gitea_url
     - woodpecker_ci_server_config_gitea_client
     - woodpecker_ci_server_config_gitea_secret
+
+- name: Fail if required Woodpecker CI server + GitHub settings not defined
+  ansible.builtin.fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`).
+  when: "woodpecker_ci_server_provider == 'github' and lookup('vars', item, default='') | string | length == 0"
+  with_items:
+    - woodpecker_ci_server_config_github_client
+    - woodpecker_ci_server_config_github_secret
+
+- name: Fail if required Woodpecker CI server + Forgejo settings not defined
+  ansible.builtin.fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`).
+  when: "woodpecker_ci_server_provider == 'forgejo' and lookup('vars', item, default='') | string | length == 0"
+  with_items:
+    - woodpecker_ci_server_config_forgejo_url
+    - woodpecker_ci_server_config_forgejo_client
+    - woodpecker_ci_server_config_forgejo_secret
 
 - name: Run if Traefik is enabled
   when: woodpecker_ci_server_container_labels_traefik_enabled | bool
