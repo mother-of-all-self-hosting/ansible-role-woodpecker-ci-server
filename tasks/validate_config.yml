@@ -17,6 +17,7 @@
     - { "old": "woodpecker_ci_server_systemd_required_systemd_services_list_default", "new": "woodpecker_ci_server_systemd_required_services_list_default" }
     - { "old": "woodpecker_ci_server_systemd_required_systemd_services_list_auto", "new": "woodpecker_ci_server_systemd_required_services_list_auto" }
     - { "old": "woodpecker_ci_server_systemd_required_systemd_services_list_custom", "new": "woodpecker_ci_server_systemd_required_services_list_custom" }
+    - { "old": "woodpecker_ci_server_database_driver", "new": "woodpecker_ci_server_environment_variables_database_driver" }
     - { "old": "woodpecker_ci_server_container_additional_environment_variables", "new": "woodpecker_ci_server_environment_variables_additional_variables" }
 
 - name: Fail if required Woodpecker CI server settings not defined
@@ -36,8 +37,8 @@
 - name: Fail if Woodpecker CI database driver option is invalid
   ansible.builtin.fail:
     msg: >-
-      woodpecker_ci_server_database_driver must be 'sqlite3', 'postgres', or 'ymsql'
-  when: "woodpecker_ci_server_database_driver not in ['sqlite3', 'postgres', 'ymsql']"
+      woodpecker_ci_server_environment_variables_database_driver must be 'sqlite3', 'postgres', or 'ymsql'
+  when: "woodpecker_ci_server_environment_variables_database_driver not in ['sqlite3', 'postgres', 'ymsql']"
 
 - name: Fail if required Woodpecker CI server + Gitea settings not defined
   ansible.builtin.fail:
