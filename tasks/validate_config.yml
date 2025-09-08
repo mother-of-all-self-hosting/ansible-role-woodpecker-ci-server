@@ -37,8 +37,8 @@
 - name: Fail if Woodpecker CI database driver option is invalid
   ansible.builtin.fail:
     msg: >-
-      woodpecker_ci_server_environment_variables_database_driver must be 'sqlite3', 'postgres', or 'ymsql'
-  when: "woodpecker_ci_server_environment_variables_database_driver not in ['sqlite3', 'postgres', 'ymsql']"
+      woodpecker_ci_server_environment_variables_database_driver must be 'sqlite3', 'postgres', or 'mysql'
+  when: "woodpecker_ci_server_environment_variables_database_driver not in ['sqlite3', 'postgres', 'mysql']"
 
 - name: Fail if required Woodpecker CI server + Gitea settings not defined
   ansible.builtin.fail:

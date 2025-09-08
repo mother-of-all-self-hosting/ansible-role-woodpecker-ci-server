@@ -246,7 +246,7 @@ woodpecker_ci_server_provider: ''
 woodpecker_ci_server_config_plugins_privileged: ''
 
 # woodpecker_ci_server_environment_variables_database_driver configures the database driver
-# Valid values: sqlite3, postgres, ymsql
+# Valid values: sqlite3, postgres, mysql
 #
 # See: https://woodpecker-ci.org/docs/administration/database
 woodpecker_ci_server_environment_variables_database_driver: sqlite3
