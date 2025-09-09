@@ -42,7 +42,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       {% endif %}
       --env-file={{ woodpecker_ci_server_base_path }}/env \
       --label-file={{ woodpecker_ci_server_base_path }}/labels \
-      --mount type=bind,src={{ woodpecker_ci_server_data_path }},dst=/data \
+      --mount type=bind,src={{ woodpecker_ci_server_data_path }},dst=/var/lib/woodpecker/ \
       --tmpfs=/tmp:rw,noexec,nosuid,size=128m \
       {{ woodpecker_ci_server_container_image }}
 
