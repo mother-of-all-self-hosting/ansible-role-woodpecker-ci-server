@@ -19,6 +19,10 @@
     - { "old": "woodpecker_ci_server_systemd_required_systemd_services_list_custom", "new": "woodpecker_ci_server_systemd_required_services_list_custom" }
     - { "old": "woodpecker_ci_server_database_driver", "new": "woodpecker_ci_server_database_type" }
     - { "old": "woodpecker_ci_server_environment_variables_database_driver", "new": "woodpecker_ci_server_database_type" }
+    - { "old": "woodpecker_ci_server_database_datasource_hostname", "new": "<Replace with woodpecker_ci_server_database_mysql_hostname or woodpecker_ci_server_database_postgres_hostname>" }
+    - { "old": "woodpecker_ci_server_database_datasource_port", "new": "<Replace with woodpecker_ci_server_database_mysql_port or woodpecker_ci_server_database_postgres_port>" }
+    - { "old": "woodpecker_ci_server_database_datasource_username", "new": "<Replace with woodpecker_ci_server_database_mysql_username or woodpecker_ci_server_database_postgres_username>" }
+    - { "old": "woodpecker_ci_server_database_datasource_password", "new": "<Replace with woodpecker_ci_server_database_mysql_password or woodpecker_ci_server_database_postgres_password>" }
     - { "old": "woodpecker_ci_server_container_additional_environment_variables", "new": "woodpecker_ci_server_environment_variables_additional_variables" }
 
 - name: Fail if required Woodpecker CI server settings not defined
@@ -38,8 +42,26 @@
 - name: Fail if Woodpecker CI database driver option is invalid
   ansible.builtin.fail:
     msg: >-
-      woodpecker_ci_server_database_type must be 'sqlite3', 'postgres', or 'mysql'
-  when: "woodpecker_ci_server_database_type not in ['sqlite3', 'postgres', 'mysql']"
+      woodpecker_ci_server_database_type must be 'mysql', 'postgres', or 'sqlite3'
+  when: "woodpecker_ci_server_database_type not in ['mysql', 'postgres', 'sqlite3']"
+
+- name: Fail if required Woodpecker CI server + MySQL integration settings not defined
+  ansible.builtin.fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`) when `woodpecker_ci_server_database_type` is `mysql`
+  when: "woodpecker_ci_server_database_type == 'mysql' and lookup('vars', item, default='') | string | length == 0"
+  with_items:
+    - woodpecker_ci_server_database_mysql_hostname
+    - woodpecker_ci_server_database_mysql_password
+
+- name: Fail if required Woodpecker CI server + Postgres integration settings not defined
+  ansible.builtin.fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`) when `woodpecker_ci_server_database_type` is `postgres`
+  when: "woodpecker_ci_server_database_type == 'postgres' and lookup('vars', item, default='') | string | length == 0"
+  with_items:
+    - woodpecker_ci_server_database_postgres_hostname
+    - woodpecker_ci_server_database_postgres_password
 
 - name: Fail if required Woodpecker CI server + Gitea settings not defined
   ansible.builtin.fail:

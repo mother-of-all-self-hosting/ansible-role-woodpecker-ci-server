@@ -246,14 +246,27 @@ woodpecker_ci_server_provider: ''
 woodpecker_ci_server_config_plugins_privileged: ''
 
 # woodpecker_ci_server_database_type configures the database driver
-# Valid values: sqlite3, postgres, mysql
+# Valid values: mysql, postgres, sqlite3
 #
-# See: https://woodpecker-ci.org/docs/administration/database
+# See: https://woodpecker-ci.org/docs/administration/configuration/server#databases
 woodpecker_ci_server_database_type: sqlite3
+
+woodpecker_ci_server_database_mysql_hostname: ""
+woodpecker_ci_server_database_mysql_port: 3306
+woodpecker_ci_server_database_mysql_username: woodpecker_ci_server
+woodpecker_ci_server_database_mysql_password: ""
+woodpecker_ci_server_database_postgres_hostname: ""
+woodpecker_ci_server_database_postgres_port: 5432
+woodpecker_ci_server_database_postgres_username: woodpecker_ci_server
+woodpecker_ci_server_database_postgres_password: ""
+
+woodpecker_ci_server_database_name: woodpecker_ci_server
 
 # woodpecker_ci_server_database_datasource configures the URI or filepath where the database can be reached.
 # This is dependent on `woodpecker_ci_server_database_type`
-woodpecker_ci_server_database_datasource: /data/database.sqlite
+woodpecker_ci_server_database_datasource_mysql: "{{ woodpecker_ci_server_database_mysql_username }}:{{ woodpecker_ci_server_database_mysql_password }}@tcp({{ woodpecker_ci_server_database_mysql_hostname }}:{{ woodpecker_ci_server_database_mysql_port }})/{{ woodpecker_ci_server_database_name }}?parseTime=true"
+woodpecker_ci_server_database_datasource_postgres: "postgres://{{ woodpecker_ci_server_database_postgres_username }}:{{ woodpecker_ci_server_database_postgres_password }}@{{ woodpecker_ci_server_database_postgres_hostname }}:{{ woodpecker_ci_server_database_postgres_port }}/{{ woodpecker_ci_server_database_name }}?sslmode=disable"
+woodpecker_ci_server_database_datasource_sqlite: "/data/{{ woodpecker_ci_server_database_name }}.sqlite"
 
 # woodpecker_ci_server_environment_variables_additional_variables contains a multiline string with additional environment variables to pass to the container.
 #
