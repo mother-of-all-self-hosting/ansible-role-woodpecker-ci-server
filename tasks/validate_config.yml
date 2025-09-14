@@ -39,7 +39,7 @@
     - "name": "woodpecker_ci_server_container_labels_traefik_compression_middleware_name"
       when: "{{ woodpecker_ci_server_container_labels_traefik_compression_middleware_enabled }}"
 
-- name: Fail if Woodpecker CI database driver option is invalid
+- name: Fail if Woodpecker CI database type is invalid
   ansible.builtin.fail:
     msg: >-
       woodpecker_ci_server_database_type must be 'mysql', 'postgres', or 'sqlite3'
