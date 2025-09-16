@@ -24,6 +24,7 @@
     - { "old": "woodpecker_ci_server_database_datasource_username", "new": "<Replace with woodpecker_ci_server_database_mysql_username or woodpecker_ci_server_database_postgres_username>" }
     - { "old": "woodpecker_ci_server_database_datasource_password", "new": "<Replace with woodpecker_ci_server_database_mysql_password or woodpecker_ci_server_database_postgres_password>" }
     - { "old": "woodpecker_ci_server_container_additional_environment_variables", "new": "woodpecker_ci_server_environment_variables_additional_variables" }
+    - { "old": "woodpecker_ci_server_http_header_content_permission_policy", "new": "woodpecker_ci_server_http_header_permissions_policy" }
 
 - name: Fail if required Woodpecker CI server settings not defined
   ansible.builtin.fail:
