@@ -32,9 +32,10 @@
       You need to define a required configuration setting (`{{ item.name }}`) for using this role.
   when: "item.when | bool and lookup('vars', item.name, default='') | string | length == 0"
   with_items:
-    - { "name": "woodpecker_ci_server_hostname", when: true }
     - { "name": "woodpecker_ci_server_uid", when: true }
     - { "name": "woodpecker_ci_server_gid", when: true }
+    - { "name": "woodpecker_ci_server_hostname", when: true }
+    - { "name": "woodpecker_ci_server_container_network", when: true }
     - { "name": "woodpecker_ci_server_config_agent_secret", when: true }
     - { "name": "woodpecker_ci_server_provider", when: true }
     - "name": "woodpecker_ci_server_container_labels_traefik_compression_middleware_name"
