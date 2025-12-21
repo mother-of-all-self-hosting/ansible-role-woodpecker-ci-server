@@ -44,6 +44,9 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       --label-file={{ woodpecker_ci_server_base_path }}/labels \
       --mount type=bind,src={{ woodpecker_ci_server_data_path }},dst=/data \
       --tmpfs=/tmp:rw,noexec,nosuid,size=128m \
+      {% for arg in woodpecker_ci_server_container_extra_arguments %}
+      {{ arg }} \
+      {% endfor %}
       {{ woodpecker_ci_server_container_image }}
 
 {% for network in woodpecker_ci_server_container_additional_networks %}
