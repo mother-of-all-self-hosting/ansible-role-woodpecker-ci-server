@@ -22,7 +22,7 @@ woodpecker_ci_server_version: v3.12.0
 woodpecker_ci_server_uid: ""
 woodpecker_ci_server_gid: ""
 
-# woodpecker_ci_server_hostname is the fully-qualified domain name of your Woodpecker CI host (e.g. `woodpecker.DOMAIN`)
+# The hostname at which Woodpecker CI is served.
 woodpecker_ci_server_hostname: ""
 
 woodpecker_ci_server_scheme: https
