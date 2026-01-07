@@ -73,4 +73,6 @@ traefik.http.services.{{ woodpecker_ci_server_identifier }}-grpc.loadbalancer.se
 
 {% endif %}
 
-{{ woodpecker_ci_server_container_labels_additional_labels }}
+{% for arg in woodpecker_ci_server_container_labels_additional_labels %}
+{{ arg }}
+{% endfor %}
