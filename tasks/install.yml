@@ -18,9 +18,9 @@
   ansible.builtin.template:
     src: "{{ role_path }}/templates/{{ item }}.j2"
     dest: "{{ woodpecker_ci_server_base_path }}/{{ item }}"
+    mode: "0640"
     owner: "{{ woodpecker_ci_server_uid }}"
     group: "{{ woodpecker_ci_server_gid }}"
-    mode: "0640"
   with_items:
     - env
     - labels
