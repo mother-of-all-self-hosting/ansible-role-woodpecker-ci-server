@@ -116,7 +116,7 @@ woodpecker_ci_server_container_labels_traefik_additional_response_headers_custom
 # To add your own custom labels, use `woodpecker_ci_server_container_labels_additional_labels_custom`
 #
 # Example:
-# woodpecker_ci_server_container_labels_additional_labels_custom: |
+# woodpecker_ci_server_container_labels_additional_labels_custom:
 #   - my.label=1
 #   - another.label="here"
 woodpecker_ci_server_container_labels_additional_labels: "{{ woodpecker_ci_server_container_labels_additional_labels_auto + woodpecker_ci_server_container_labels_additional_labels_custom }}"
