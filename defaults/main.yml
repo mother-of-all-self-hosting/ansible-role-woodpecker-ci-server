@@ -22,10 +22,11 @@ woodpecker_ci_server_version: v3.12.0
 woodpecker_ci_server_uid: ""
 woodpecker_ci_server_gid: ""
 
+# The scheme used for serving Woodpecker CI.
+woodpecker_ci_server_scheme: https
+
 # The hostname at which Woodpecker CI is served.
 woodpecker_ci_server_hostname: ""
-
-woodpecker_ci_server_scheme: https
 
 # The path at which Woodpecker CI is served.
 # This value must either be `/` or not end with a slash (e.g. `/ci`).
