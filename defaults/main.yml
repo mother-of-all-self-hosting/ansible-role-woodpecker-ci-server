@@ -124,6 +124,9 @@ woodpecker_ci_server_container_labels_additional_labels: "{{ woodpecker_ci_serve
 woodpecker_ci_server_container_labels_additional_labels_auto: []
 woodpecker_ci_server_container_labels_additional_labels_custom: []
 
+# Specify the size of the container's tmpfs volume
+woodpecker_ci_server_container_tmpfs_tmp_size: 128m
+
 # A list of extra arguments to pass to the container (`docker create` command)
 woodpecker_ci_server_container_extra_arguments: "{{ woodpecker_ci_server_container_extra_arguments_auto + woodpecker_ci_server_container_extra_arguments_custom }}"
 woodpecker_ci_server_container_extra_arguments_auto: []
