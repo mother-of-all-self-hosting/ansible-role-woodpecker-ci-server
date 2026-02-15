@@ -42,6 +42,9 @@ woodpecker_ci_server_container_image_force_pull: "{{ woodpecker_ci_server_contai
 # The base container network. It will be auto-created by this role if it doesn't exist already.
 woodpecker_ci_server_container_network: woodpecker-ci
 
+# Control if the container network is deleted on uninstalling.
+woodpecker_ci_server_container_network_deletion_enabled: true
+
 woodpecker_ci_server_http_bind_port: ""
 woodpecker_ci_server_https_bind_port: ""
 
