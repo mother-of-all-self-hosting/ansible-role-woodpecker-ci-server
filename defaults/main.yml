@@ -1,9 +1,9 @@
-# SPDX-FileCopyrightText: 2022 - 2025 Slavi Pantaleev
-# SPDX-FileCopyrightText: 2023 - 2024 Nikita Chernyi
-# SPDX-FileCopyrightText: 2023 Julian-Samuel Gebühr
+# SPDX-FileCopyrightText: 2022-2025 Slavi Pantaleev
+# SPDX-FileCopyrightText: 2023, 2024 Julian-Samuel Gebühr
+# SPDX-FileCopyrightText: 2023, 2024 Nikita Chernyi
 # SPDX-FileCopyrightText: 2024 Sergio Durigan Junior
 # SPDX-FileCopyrightText: 2025 MASH project contributors
-# SPDX-FileCopyrightText: 2025 Suguru Hirahara
+# SPDX-FileCopyrightText: 2025, 2026 Suguru Hirahara
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -291,6 +291,12 @@ woodpecker_ci_server_provider: ""
 # Example: `woodpeckerci/plugin-docker-buildx:5.2.0`
 woodpecker_ci_server_config_plugins_privileged: ""
 
+########################################################################
+#                                                                      #
+# database                                                             #
+#                                                                      #
+########################################################################
+
 # Specify a database driver to use
 # Valid values: mysql, postgres, sqlite3
 # See: https://woodpecker-ci.org/docs/administration/configuration/server#databases
@@ -313,9 +319,50 @@ woodpecker_ci_server_database_name: woodpecker_ci_server
 
 # woodpecker_ci_server_database_datasource configures the URI or filepath where the database can be reached.
 # This is dependent on `woodpecker_ci_server_database_type`
-woodpecker_ci_server_database_datasource_mysql: "{{ woodpecker_ci_server_database_mysql_username }}:{{ woodpecker_ci_server_database_mysql_password }}@tcp({{ woodpecker_ci_server_database_mysql_hostname }}:{{ woodpecker_ci_server_database_mysql_port }})/{{ woodpecker_ci_server_database_name }}?parseTime=true"
-woodpecker_ci_server_database_datasource_postgres: "postgres://{{ woodpecker_ci_server_database_postgres_username }}:{{ woodpecker_ci_server_database_postgres_password }}@{{ woodpecker_ci_server_database_postgres_hostname }}:{{ woodpecker_ci_server_database_postgres_port }}/{{ woodpecker_ci_server_database_name }}?sslmode={{ woodpecker_ci_server_database_postgres_sslmode }}"
+# See: https://woodpecker-ci.org/docs/2.8/administration/database#configure-mysqlmariadb
+woodpecker_ci_server_database_datasource_mysql: |
+  {{ woodpecker_ci_server_database_mysql_username }}:{{ woodpecker_ci_server_database_mysql_password }}
+  {%- if woodpecker_ci_server_database_mysql_socket_enabled -%}
+  @unix({{ woodpecker_ci_server_database_mysql_hostname }})
+  {%- else -%}
+  @tcp({{ woodpecker_ci_server_database_mysql_hostname }}:{{ woodpecker_ci_server_database_mysql_port }})
+  {%- endif -%}
+  /{{ woodpecker_ci_server_database_name }}?parseTime=true
+
+# See: https://woodpecker-ci.org/docs/2.8/administration/database#configure-postgres
+woodpecker_ci_server_database_datasource_postgres: |
+  postgres://{{ woodpecker_ci_server_database_postgres_username }}:{{ woodpecker_ci_server_database_postgres_password }}@
+  {%- if woodpecker_ci_server_database_postgres_socket_enabled -%}
+  /{{ woodpecker_ci_server_database_name }}?host={{ woodpecker_ci_server_database_postgres_socket_path_container }}
+  {%- else -%}
+  {{ woodpecker_ci_server_database_postgres_hostname }}:{{ woodpecker_ci_server_database_postgres_port }}/{{ woodpecker_ci_server_database_name }}?sslmode={{ woodpecker_ci_server_database_postgres_sslmode }}
+  {% endif %}
+
 woodpecker_ci_server_database_datasource_sqlite: "/data/{{ woodpecker_ci_server_database_name }}.sqlite"
+
+# Control if the connection to MySQL is made via a Unix socket
+woodpecker_ci_server_database_mysql_socket_enabled: true
+
+# Specify the path to the MySQL Unix socket path on the host (bind-mount source)
+woodpecker_ci_server_database_mysql_socket_path_host: ""
+
+# Specify the path to the MySQL Unix socket path inside the Woodpecker CI server container
+woodpecker_ci_server_database_mysql_socket_path_container: /run-mysqld
+
+# Control if the connection to Postgres is made via a Unix socket
+woodpecker_ci_server_database_postgres_socket_enabled: true
+
+# Specify the path to the Postgres Unix socket path on the host (bind-mount source)
+woodpecker_ci_server_database_postgres_socket_path_host: ""
+
+# Specify the path to the Postgres Unix socket path inside the Woodpecker CI server container
+woodpecker_ci_server_database_postgres_socket_path_container: /run-postgres
+
+########################################################################
+#                                                                      #
+# /database                                                            #
+#                                                                      #
+########################################################################
 
 # Specify the timezone
 woodpecker_ci_server_environment_variables_tz: UTC
