@@ -336,7 +336,7 @@ woodpecker_ci_server_database_datasource_postgres: |
   /{{ woodpecker_ci_server_database_name }}?host={{ woodpecker_ci_server_database_postgres_socket_path_container }}
   {%- else -%}
   {{ woodpecker_ci_server_database_postgres_hostname }}:{{ woodpecker_ci_server_database_postgres_port }}/{{ woodpecker_ci_server_database_name }}?sslmode={{ woodpecker_ci_server_database_postgres_sslmode }}
-  {% endif %}
+  {%- endif -%}
 
 woodpecker_ci_server_database_datasource_sqlite: "/data/{{ woodpecker_ci_server_database_name }}.sqlite"
 
