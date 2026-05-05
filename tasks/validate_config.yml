@@ -27,6 +27,7 @@
     - { "old": "woodpecker_ci_server_database_datasource_password", "new": "<Replace with woodpecker_ci_server_database_mysql_password or woodpecker_ci_server_database_postgres_password>" }
     - { "old": "woodpecker_ci_server_container_additional_environment_variables", "new": "woodpecker_ci_server_environment_variables_additional_variables" }
     - { "old": "woodpecker_ci_server_http_header_content_permission_policy", "new": "woodpecker_ci_server_http_header_permissions_policy" }
+    - { "old": "woodpecker_ci_server_container_image_force_pull", "new": "<removed> (the new community.docker.docker_image_pull module handles this natively)" }
 
 - name: Fail if required Woodpecker CI server settings not defined
   ansible.builtin.fail:

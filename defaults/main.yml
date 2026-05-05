@@ -37,7 +37,6 @@ woodpecker_ci_server_container_image_tag: "{{ woodpecker_ci_server_version }}"
 woodpecker_ci_server_container_image_registry_prefix: "{{ woodpecker_ci_server_container_image_registry_prefix_upstream }}"
 woodpecker_ci_server_container_image_registry_prefix_upstream: "{{ woodpecker_ci_server_container_image_registry_prefix_upstream_default }}"
 woodpecker_ci_server_container_image_registry_prefix_upstream_default: docker.io/
-woodpecker_ci_server_container_image_force_pull: "{{ woodpecker_ci_server_container_image.endswith(':latest') }}"
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
 woodpecker_ci_server_container_network: woodpecker-ci
