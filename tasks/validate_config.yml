@@ -38,6 +38,7 @@
     - woodpecker_ci_server_uid
     - woodpecker_ci_server_gid
     - woodpecker_ci_server_hostname
+    - woodpecker_ci_server_path_prefix
     - woodpecker_ci_server_container_network
     - woodpecker_ci_server_config_agent_secret
     - woodpecker_ci_server_provider
