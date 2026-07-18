@@ -58,7 +58,7 @@ traefik.http.routers.{{ woodpecker_ci_server_identifier }}.tls={{ woodpecker_ci_
 traefik.http.routers.{{ woodpecker_ci_server_identifier }}.tls.certResolver={{ woodpecker_ci_server_container_labels_traefik_tls_certResolver }}
 {% endif %}
 
-traefik.http.services.{{ woodpecker_ci_server_identifier }}.loadbalancer.server.port=8000
+traefik.http.services.{{ woodpecker_ci_server_identifier }}.loadbalancer.server.port={{ woodpecker_ci_server_config_server_addr_port }}
 
 {% if woodpecker_ci_server_container_labels_traefik_grpc_enabled %}
 # gRPC

@@ -31,7 +31,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
       --read-only \
       --network={{ woodpecker_ci_server_container_network }} \
       {% if woodpecker_ci_server_http_bind_port != '' %}
-      -p {{ woodpecker_ci_server_http_bind_port }}:80 \
+      -p {{ woodpecker_ci_server_http_bind_port }}:{{ woodpecker_ci_server_config_server_addr_port }} \
       {% endif %}
       {% if woodpecker_ci_server_https_bind_port != '' %}
       -p {{ woodpecker_ci_server_https_bind_port }}:443 \
