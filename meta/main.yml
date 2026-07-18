@@ -2,6 +2,8 @@
 galaxy_info:
   author: Slavi Pantaleev
   company: Devture Ltd
+  role_name: woodpecker_ci_server
+  namespace: mash
   description: Woodpecker CI server role
   platforms:
     - name: Debian
