@@ -43,11 +43,15 @@ pip3 install -r ./molecule/requirements.txt
 
 ## Scenarios
 
-Currently there is one testing scenario available.
+Currently these testing scenarios are available:
 
 ### `default`
 
 Tests a standard Woodpecker CI server installation.
+
+### `postgres`
+
+Tests a standard Woodpecker CI server installation with the Postgres database.
 
 ## Running
 
