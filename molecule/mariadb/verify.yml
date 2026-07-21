@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2026 Suguru Hirahara
+# SPDX-FileCopyrightText: 2026 spatterlight
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+- name: Verify Woodpecker CI server systemd service
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Wait for Woodpecker CI server service to become active (up to 180s)
+      ansible.builtin.systemd:
+        name: woodpecker-ci-server.service
+      register: woodpecker_ci_server_service
+      until: woodpecker_ci_server_service.status.ActiveState == 'active'
+      retries: 36
+      delay: 5
+
+    - name: Assert Woodpecker CI server service is active
+      ansible.builtin.assert:
+        that: woodpecker_ci_server_service.status.ActiveState == 'active'
+        fail_msg: "woodpecker-ci-server.service not active ({{ woodpecker_ci_server_service.status.ActiveState }})"
+        success_msg: "woodpecker-ci-server.service is active"
+
+    - name: Retrieve Woodpecker CI server service log for debugging
+      when: woodpecker_ci_server_debug_service_enabled | bool
+      ansible.builtin.command:
+        cmd: journalctl -xeu woodpecker-ci-server.service
+      changed_when: false
+
+    - name: Wait for Woodpecker CI server HTTP endpoint to respond (up to 10m)
+      ansible.builtin.uri:
+        url: "http://localhost:8000/"
+        method: GET
+        status_code: [200, 302]
+        follow_redirects: none
+      register: woodpecker_ci_server_endpoint
+      until: woodpecker_ci_server_endpoint.status in [200, 302]
+      retries: 120
+      delay: 5
+
+    - name: Assert Woodpecker CI server HTTP endpoint responds
+      ansible.builtin.assert:
+        that: woodpecker_ci_server_endpoint.status in [200, 302]
+        fail_msg: "Woodpecker CI server did not respond as expected ({{ woodpecker_ci_server_endpoint.status | default('no response') }})"
+        success_msg: "Woodpecker CI server responded with {{ woodpecker_ci_server_endpoint.status }}"
+
+    - name: Show Woodpecker CI server systemd service status summary
+      ansible.builtin.debug:
+        msg:
+          - "Woodpecker CI server systemd: {{ woodpecker_ci_server_service.status.ActiveState }}"
+          - "Woodpecker CI server HTTP: {{ woodpecker_ci_server_endpoint.status }}"
