@@ -38,12 +38,12 @@ provisioner:
         woodpecker_ci_server_hostname: localhost
         woodpecker_ci_server_container_labels_traefik_enabled: false
         woodpecker_ci_server_http_bind_port: 8000
-        woodpecker_ci_server_database_type: sqlite3
         woodpecker_ci_server_provider: gitea
         woodpecker_ci_server_config_agent_secret: secret
         woodpecker_ci_server_config_gitea_url: https://example.com
         woodpecker_ci_server_config_gitea_client: client
         woodpecker_ci_server_config_gitea_secret: secret
+        woodpecker_ci_server_database_type: sqlite3
   env:
     # Workaround for https://github.com/ansible/molecule/issues/4391
     ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/..:/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles:~/.ansible/roles

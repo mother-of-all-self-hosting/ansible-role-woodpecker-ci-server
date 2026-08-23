@@ -38,7 +38,6 @@ provisioner:
         woodpecker_ci_server_hostname: localhost
         woodpecker_ci_server_container_labels_traefik_enabled: false
         woodpecker_ci_server_http_bind_port: 8000
-        woodpecker_ci_server_database_type: postgres
         woodpecker_ci_server_provider: gitea
         woodpecker_ci_server_config_agent_secret: secret
         woodpecker_ci_server_config_gitea_url: https://example.com
@@ -46,6 +45,7 @@ provisioner:
         woodpecker_ci_server_config_gitea_secret: secret
 
         # Variables required for Woodpecker CI server to connect to the Postgres database (via Unix socket)
+        woodpecker_ci_server_database_type: postgres
         woodpecker_ci_server_database_postgres_username: my_database_username
         woodpecker_ci_server_database_postgres_password: my_database_password
         woodpecker_ci_server_database_name: woodpecker_ci_server
