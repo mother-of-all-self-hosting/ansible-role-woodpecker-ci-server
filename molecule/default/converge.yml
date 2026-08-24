@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Suguru Hirahara
 # SPDX-FileCopyrightText: 2026 spatterlight
+# SPDX-FileCopyrightText: 2026 Slavi Pantaleev
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
@@ -9,6 +10,24 @@
   become: true
   gather_facts: true
   tasks:
+    # Minted by prepare.yml against the helper Forgejo. Read from disk rather
+    # than re-minted, so that the values (which end up in the environment file)
+    # are the same on every converge run and the idempotence check stays honest.
+    - name: Read the OAuth client id for the helper Forgejo
+      ansible.builtin.slurp:
+        src: "{{ woodpecker_ci_server_molecule_state_path }}/oauth-client-id"
+      register: woodpecker_ci_server_molecule_oauth_client_id_file
+
+    - name: Read the OAuth client secret for the helper Forgejo
+      ansible.builtin.slurp:
+        src: "{{ woodpecker_ci_server_molecule_state_path }}/oauth-client-secret"
+      register: woodpecker_ci_server_molecule_oauth_client_secret_file
+
+    - name: Set the OAuth credentials for the helper Forgejo
+      ansible.builtin.set_fact:
+        woodpecker_ci_server_config_forgejo_client: "{{ woodpecker_ci_server_molecule_oauth_client_id_file.content | b64decode | trim }}"
+        woodpecker_ci_server_config_forgejo_secret: "{{ woodpecker_ci_server_molecule_oauth_client_secret_file.content | b64decode | trim }}"
+
     - name: Include roles for Woodpecker CI server Molecule tests
       ansible.builtin.include_role:
         name: "{{ role_name }}"

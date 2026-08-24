@@ -49,6 +49,8 @@ Currently these testing scenarios are available:
 
 Tests a standard Woodpecker CI server installation.
 
+Woodpecker CI is a front-end to a Git forge and refuses to run without one, so this scenario deploys a [Forgejo](https://forgejo.org/) instance with the [MASH Forgejo role](https://github.com/mother-of-all-self-hosting/ansible-role-forgejo), registers an OAuth application on it, and points Woodpecker CI at it. The verification then completes a login through that forge, which is what exercises the connection between the two.
+
 ### `mariadb`
 
 Tests a standard Woodpecker CI server installation with the MariaDB database.
