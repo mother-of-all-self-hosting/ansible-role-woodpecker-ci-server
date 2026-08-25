@@ -54,7 +54,7 @@
     # it forever, so the container has to be confirmed running in its own right.
     - name: Inspect the Woodpecker CI server container
       ansible.builtin.command:
-        cmd: docker inspect woodpecker-ci-server
+        cmd: docker container inspect woodpecker-ci-server
       register: woodpecker_ci_server_container_inspect
       changed_when: false
 
