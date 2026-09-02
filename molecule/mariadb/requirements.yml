@@ -4,6 +4,9 @@ roles:
   - src: https://github.com/geerlingguy/ansible-role-docker
     version: 8.0.0
     name: ansible-role-docker
+  - src: https://github.com/mother-of-all-self-hosting/ansible-role-forgejo
+    version: v16.0.3-0
+    name: ansible-role-forgejo
   - src: https://github.com/mother-of-all-self-hosting/ansible-role-mariadb
     version: v12.3.3-0
     name: ansible-role-mariadb

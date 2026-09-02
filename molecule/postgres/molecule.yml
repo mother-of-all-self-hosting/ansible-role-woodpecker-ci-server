@@ -1,3 +1,4 @@
+# SPDX-FileCopyrightText: 2026 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2026 spatterlight
 # SPDX-FileCopyrightText: 2026 Suguru Hirahara
 #
@@ -31,18 +32,66 @@ provisioner:
         # Helper variables
         woodpecker_ci_server_debug_service_enabled: false
 
+        # Woodpecker CI is a front-end to a Git forge and refuses to run without
+        # one: a server started with no forge configured exits immediately with
+        # "could not setup service manager: forge not configured". So this
+        # scenario deploys a Forgejo with the MASH Forgejo role and points
+        # Woodpecker CI at it, rather than naming a forge that does not exist.
+        woodpecker_ci_server_molecule_forgejo_identifier: woodpecker-ci-server-default-forgejo
+
+        # The port that the helper Forgejo is published on inside the test
+        # container, so that prepare.yml and verify.yml can reach its API and
+        # its browser routes from the host side.
+        woodpecker_ci_server_molecule_forgejo_bind_port: 3000
+
+        # How Woodpecker CI reaches the forge: by container name, over the
+        # container network the two of them share.
+        woodpecker_ci_server_molecule_forgejo_url: "http://{{ woodpecker_ci_server_molecule_forgejo_identifier }}:3000"
+
+        # The port that Woodpecker CI is published on inside the test container.
+        woodpecker_ci_server_molecule_bind_port: 8000
+
+        # The administrator that prepare.yml creates on the helper Forgejo, and
+        # that verify.yml logs into Woodpecker CI as.
+        woodpecker_ci_server_molecule_admin_username: molecule
+        woodpecker_ci_server_molecule_admin_password: molecule-admin-password
+        woodpecker_ci_server_molecule_admin_email: molecule@example.com
+
+        # Where the credentials minted against the helper Forgejo are kept, so
+        # that converge.yml and verify.yml can pick them up in their own
+        # playbook runs.
+        woodpecker_ci_server_molecule_state_path: /root/woodpecker-ci-server-molecule
+
+        # What the OAuth application registered on the forge points back at.
+        # Asserted in verify.yml against the redirect the running server builds,
+        # so that the two cannot drift apart unnoticed.
+        woodpecker_ci_server_molecule_redirect_uri: "{{ woodpecker_ci_server_scheme }}://{{ woodpecker_ci_server_hostname }}/authorize"
+
+        # The container network that Woodpecker CI and the helper Forgejo share.
+        woodpecker_ci_server_molecule_container_network: woodpecker-ci-server-default
+
         # Variables for Woodpecker CI server
         woodpecker_ci_server_uid: 1000
         woodpecker_ci_server_gid: 1000
         woodpecker_ci_server_scheme: http
-        woodpecker_ci_server_hostname: localhost
+        # Carries the port, because this value ends up in WOODPECKER_HOST, which
+        # is what the server builds its OAuth redirect URI out of. Without it,
+        # the forge would be told to send the browser back to port 80.
+        woodpecker_ci_server_hostname: "localhost:{{ woodpecker_ci_server_molecule_bind_port }}"
         woodpecker_ci_server_container_labels_traefik_enabled: false
-        woodpecker_ci_server_http_bind_port: 8000
-        woodpecker_ci_server_provider: gitea
+        woodpecker_ci_server_http_bind_port: "{{ woodpecker_ci_server_molecule_bind_port }}"
+        woodpecker_ci_server_container_network: "{{ woodpecker_ci_server_molecule_container_network }}"
         woodpecker_ci_server_config_agent_secret: secret
-        woodpecker_ci_server_config_gitea_url: https://example.com
-        woodpecker_ci_server_config_gitea_client: client
-        woodpecker_ci_server_config_gitea_secret: secret
+        woodpecker_ci_server_provider: forgejo
+        woodpecker_ci_server_config_forgejo_url: "{{ woodpecker_ci_server_molecule_forgejo_url }}"
+        # The OAuth client id and secret are minted against the helper Forgejo
+        # by prepare.yml and set as facts by converge.yml.
+        #
+        # Only this instance's administrator is listed, so that the admin flag
+        # the server reports for the logged-in user is one that could only have
+        # come from this setting.
+        woodpecker_ci_server_config_admins:
+          - "{{ woodpecker_ci_server_molecule_admin_username }}"
 
         # Variables required for Woodpecker CI server to connect to the Postgres database (via Unix socket)
         woodpecker_ci_server_database_type: postgres
@@ -69,6 +118,30 @@ provisioner:
               'password': woodpecker_ci_server_database_postgres_password,
             }]
           }}
+
+        # Variables for the helper Forgejo
+        forgejo_identifier: "{{ woodpecker_ci_server_molecule_forgejo_identifier }}"
+        forgejo_uid: 1000
+        forgejo_gid: 1000
+        forgejo_scheme: http
+        # Matches how Woodpecker CI addresses the forge, so that the URLs
+        # Forgejo builds for itself agree with the ones Woodpecker CI is
+        # configured with.
+        forgejo_hostname: "{{ woodpecker_ci_server_molecule_forgejo_identifier }}:3000"
+        forgejo_container_labels_traefik_enabled: false
+        forgejo_container_http_host_bind_port: "{{ woodpecker_ci_server_molecule_forgejo_bind_port }}"
+        forgejo_database_type: sqlite
+
+        # Forgejo is deployed onto the network the role under test uses, so that
+        # the Woodpecker CI container can resolve it by container name.
+        forgejo_container_network: "{{ woodpecker_ci_server_molecule_container_network }}"
+
+        # Without this, Forgejo comes up on its web installation wizard, where
+        # no API is routed and every page merely renders the install form.
+        # Locking the installation puts Forgejo into the state a real instance
+        # is in after setup, which is what a forge consumer can talk to.
+        forgejo_environment_variables_additional_variables: |
+          FORGEJO__security__INSTALL_LOCK=true
   env:
     # Workaround for https://github.com/ansible/molecule/issues/4391
     ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/..:/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles:~/.ansible/roles

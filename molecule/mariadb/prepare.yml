@@ -1,3 +1,4 @@
+# SPDX-FileCopyrightText: 2026 Slavi Pantaleev
 # SPDX-FileCopyrightText: 2026 spatterlight
 # SPDX-FileCopyrightText: 2026 Suguru Hirahara
 #
@@ -27,3 +28,132 @@
       vars:
         docker_daemon_options:
           storage-driver: vfs
+
+# Woodpecker CI only runs as a front-end to a Git forge, and it authenticates
+# its users by sending them through that forge's OAuth flow. Both halves need a
+# live forge and an OAuth application registered on it.
+#
+# Deploying Forgejo here rather than in converge.yml keeps converge focused on
+# the role under test, and keeps the credentials stable across converge runs
+# (a client id that changed every run would re-render the environment file and
+# break Molecule's idempotence check). The credentials are written to files so
+# that converge.yml and verify.yml can pick them up in their own playbook runs.
+- name: Deploy a Forgejo instance for Woodpecker CI server to use as its forge
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Include roles for the helper Forgejo
+      ansible.builtin.include_role:
+        name: "{{ role_name }}"
+        public: true
+      loop:
+        - com.devture.ansible.role.playbook_help
+        - com.devture.ansible.role.systemd_docker_base
+        - ansible-role-forgejo
+      loop_control:
+        loop_var: role_name
+
+    - name: Ensure systemd daemon is reloaded
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+
+    - name: Ensure the helper Forgejo systemd service is started
+      ansible.builtin.systemd_service:
+        name: "{{ woodpecker_ci_server_molecule_forgejo_identifier }}.service"
+        state: started
+
+    # An unconfigured Forgejo serves nothing but its installation wizard and
+    # routes no API at all, so this endpoint answering is what tells an
+    # installed instance apart from a merely running one.
+    - name: Wait for the helper Forgejo API to answer (up to 10m)
+      ansible.builtin.uri:
+        url: "http://localhost:{{ woodpecker_ci_server_molecule_forgejo_bind_port }}/api/v1/version"
+        method: GET
+        status_code: [200, 404, 500, 502, 503]
+        return_content: true
+      register: woodpecker_ci_server_molecule_forgejo_api
+      until: woodpecker_ci_server_molecule_forgejo_api.status == 200
+      retries: 120
+      delay: 5
+
+    - name: Assert the helper Forgejo API is installed and answering
+      ansible.builtin.assert:
+        that: woodpecker_ci_server_molecule_forgejo_api.status == 200
+        fail_msg: "The helper Forgejo API did not answer with 200 ({{ woodpecker_ci_server_molecule_forgejo_api.status }})"
+        success_msg: "The helper Forgejo reports {{ woodpecker_ci_server_molecule_forgejo_api.json.version }}"
+
+    - name: Ensure the Woodpecker CI server Molecule state directory exists
+      ansible.builtin.file:
+        path: "{{ woodpecker_ci_server_molecule_state_path }}"
+        state: directory
+        mode: "0700"
+
+    - name: Check whether the helper Forgejo OAuth credentials have been minted already
+      ansible.builtin.stat:
+        path: "{{ woodpecker_ci_server_molecule_state_path }}/oauth-client-id"
+      register: woodpecker_ci_server_molecule_oauth_stat
+
+    - name: Mint an OAuth application on the helper Forgejo
+      when: not woodpecker_ci_server_molecule_oauth_stat.stat.exists
+      block:
+        - name: Ensure an administrator exists on the helper Forgejo
+          ansible.builtin.command:
+            cmd: >-
+              docker exec {{ woodpecker_ci_server_molecule_forgejo_identifier }}
+              forgejo admin user create
+              --admin
+              --username {{ woodpecker_ci_server_molecule_admin_username }}
+              --password {{ woodpecker_ci_server_molecule_admin_password }}
+              --email {{ woodpecker_ci_server_molecule_admin_email }}
+              --must-change-password=false
+          register: woodpecker_ci_server_molecule_admin_creation
+          changed_when: "'successfully created' in woodpecker_ci_server_molecule_admin_creation.stdout"
+          failed_when: >-
+            woodpecker_ci_server_molecule_admin_creation.rc != 0
+            and 'already exists' not in woodpecker_ci_server_molecule_admin_creation.stderr
+
+        - name: Generate an API token for the helper Forgejo administrator
+          ansible.builtin.command:
+            cmd: >-
+              docker exec {{ woodpecker_ci_server_molecule_forgejo_identifier }}
+              forgejo admin user generate-access-token
+              --username {{ woodpecker_ci_server_molecule_admin_username }}
+              --token-name molecule
+              --scopes all
+              --raw
+          register: woodpecker_ci_server_molecule_admin_token_creation
+          changed_when: true
+
+        # Registering the application through Forgejo's own API is what makes
+        # the client id below one that Forgejo minted, rather than a literal
+        # this scenario made up. verify.yml asserts that the redirect the
+        # running server builds carries this very id, which is how the two
+        # sides are shown to be talking about the same application.
+        - name: Register Woodpecker CI server as an OAuth application on the helper Forgejo
+          ansible.builtin.uri:
+            url: "http://localhost:{{ woodpecker_ci_server_molecule_forgejo_bind_port }}/api/v1/user/applications/oauth2"
+            method: POST
+            headers:
+              Authorization: "token {{ woodpecker_ci_server_molecule_admin_token_creation.stdout | trim }}"
+            body_format: json
+            body:
+              name: woodpecker-ci-server
+              redirect_uris:
+                - "{{ woodpecker_ci_server_molecule_redirect_uri }}"
+              confidential_client: true
+            status_code: [201]
+            return_content: true
+          register: woodpecker_ci_server_molecule_oauth_application
+
+        - name: Persist the helper Forgejo OAuth client id
+          ansible.builtin.copy:
+            content: "{{ woodpecker_ci_server_molecule_oauth_application.json.client_id }}"
+            dest: "{{ woodpecker_ci_server_molecule_state_path }}/oauth-client-id"
+            mode: "0600"
+
+        - name: Persist the helper Forgejo OAuth client secret
+          ansible.builtin.copy:
+            content: "{{ woodpecker_ci_server_molecule_oauth_application.json.client_secret }}"
+            dest: "{{ woodpecker_ci_server_molecule_state_path }}/oauth-client-secret"
+            mode: "0600"
