@@ -93,9 +93,7 @@
       woodpecker_ci_server_version_endpoint.json.version | regex_replace('^v', '')
       ==
       woodpecker_ci_server_defaults.woodpecker_ci_server_version | regex_replace('^v', '')
-    fail_msg: >-
-      Woodpecker CI server reports {{ woodpecker_ci_server_version_endpoint.json.version }},
-      expected {{ woodpecker_ci_server_defaults.woodpecker_ci_server_version }}
+    fail_msg: "Woodpecker CI server reports {{ woodpecker_ci_server_version_endpoint.json.version | default('none') }}, expected {{ woodpecker_ci_server_defaults.woodpecker_ci_server_version }}"
     success_msg: "Woodpecker CI server reports {{ woodpecker_ci_server_version_endpoint.json.version }}"
 
 - name: Retrieve the Woodpecker CI server web interface
