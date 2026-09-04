@@ -274,7 +274,7 @@
     fail_msg: "Woodpecker CI server did not report a user authenticated by the forge: {{ woodpecker_ci_server_login.stdout }}"
     success_msg: "The forge authenticated the user to Woodpecker CI server: {{ woodpecker_ci_server_login.stdout_lines | join(' ') }}"
 
-- name: Show Woodpecker CI server verification summary
+- name: Show the Woodpecker CI server verification summary
   ansible.builtin.debug:
     msg:
       - "Woodpecker CI server systemd: {{ woodpecker_ci_server_service.status.ActiveState }}"
