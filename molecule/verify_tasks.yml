@@ -22,21 +22,27 @@
   ansible.builtin.set_fact:
     woodpecker_ci_server_molecule_oauth_client_id: "{{ woodpecker_ci_server_molecule_oauth_client_id_file.content | b64decode | trim }}"
 
-- name: Wait for Woodpecker CI server service to become active (up to 180s)
-  ansible.builtin.systemd:
+- name: Wait for the Woodpecker CI server systemd service to become active (up to 180s)
+  ansible.builtin.systemd_service:
     name: woodpecker-ci-server.service
   register: woodpecker_ci_server_service
   until: woodpecker_ci_server_service.status.ActiveState == 'active'
   retries: 36
   delay: 5
+  # So that giving up is reported by the assertion below rather than as a
+  # wall of systemd unit properties.
+  failed_when: false
 
-- name: Assert Woodpecker CI server service is active
+# `Restart=always` in the systemd unit means that even a container which crashes
+# and gets restarted reads as active here, so this is a precondition rather than
+# a result.
+- name: Assert the Woodpecker CI server systemd service is active
   ansible.builtin.assert:
     that: woodpecker_ci_server_service.status.ActiveState == 'active'
-    fail_msg: "woodpecker-ci-server.service not active ({{ woodpecker_ci_server_service.status.ActiveState }})"
+    fail_msg: "woodpecker-ci-server.service is not active ({{ woodpecker_ci_server_service.status.ActiveState }})"
     success_msg: "woodpecker-ci-server.service is active"
 
-- name: Retrieve Woodpecker CI server service log for debugging
+- name: Retrieve the Woodpecker CI server systemd service log for debugging
   when: woodpecker_ci_server_debug_service_enabled | bool
   ansible.builtin.command:
     cmd: journalctl -xeu woodpecker-ci-server.service
