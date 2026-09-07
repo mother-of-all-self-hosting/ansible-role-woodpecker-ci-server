@@ -48,13 +48,13 @@
 - name: Inspect the Woodpecker CI server container
   ansible.builtin.command:
     cmd: docker container inspect woodpecker-ci-server
-  register: woodpecker_ci_server_container_inspect
+  register: woodpecker_ci_server_container_raw
   changed_when: false
 
 - name: Assert the Woodpecker CI server container is running
   ansible.builtin.assert:
-    that: (woodpecker_ci_server_container_inspect.stdout | from_json | first).State.Running
-    fail_msg: "The Woodpecker CI server container is not running: {{ (woodpecker_ci_server_container_inspect.stdout | from_json | first).State }}"
+    that: (woodpecker_ci_server_container_raw.stdout | from_json | first).State.Running
+    fail_msg: "The Woodpecker CI server container is not running: {{ (woodpecker_ci_server_container_raw.stdout | from_json | first).State }}"
     success_msg: "The Woodpecker CI server container is running"
 
 # A server whose configuration did not pass validation never reaches the
