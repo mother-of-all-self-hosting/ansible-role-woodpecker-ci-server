@@ -84,15 +84,12 @@
     return_content: true
   register: woodpecker_ci_server_version_endpoint
 
-# The server reports a bare version (`3.17.0`), while the variable that
-# Renovate bumps carries a leading `v`. Normalized on both sides, so that
-# this keeps holding if either side ever stops carrying one.
+# `woodpecker_ci_server_version` carries a leading `v` (`v3.14.0`) but the binary
+# reports the bare version (`3.14.0`). Any leading `v` is normalized
+# away on both sides, so that this keeps holding if either side ever changes.
 - name: Assert the running Woodpecker CI server is the version this role installs
   ansible.builtin.assert:
-    that: >-
-      woodpecker_ci_server_version_endpoint.json.version | regex_replace('^v', '')
-      ==
-      woodpecker_ci_server_defaults.woodpecker_ci_server_version | regex_replace('^v', '')
+    that: (woodpecker_ci_server_version_endpoint.json.version | regex_replace('^v', '')) == (woodpecker_ci_server_defaults.woodpecker_ci_server_version | regex_replace('^v', ''))
     fail_msg: "Woodpecker CI server reports {{ woodpecker_ci_server_version_endpoint.json.version | default('none') }}, expected {{ woodpecker_ci_server_defaults.woodpecker_ci_server_version }}"
     success_msg: "Woodpecker CI server reports {{ woodpecker_ci_server_version_endpoint.json.version }}"
 
