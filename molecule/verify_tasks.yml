@@ -45,7 +45,7 @@
 - name: Retrieve the Woodpecker CI server systemd service log for debugging
   when: woodpecker_ci_server_debug_service_enabled | bool
   ansible.builtin.command:
-    cmd: journalctl -xeu woodpecker-ci-server.service
+    cmd: journalctl --no-pager --output=cat --unit=woodpecker-ci-server.service
   changed_when: false
 
 # `active` only means the `docker start --attach` process is alive. A server
