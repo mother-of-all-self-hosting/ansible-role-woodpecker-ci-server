@@ -15,5 +15,23 @@
     woodpecker_ci_server_molecule_forgejo_base_url: "http://localhost:{{ woodpecker_ci_server_molecule_forgejo_bind_port }}"
 
   tasks:
-    - name: Run the shared Woodpecker CI server verification
-      ansible.builtin.include_tasks: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/molecule/verify_tasks.yml"
+    - name: Verify that Woodpecker CI server works
+      block:
+        - name: Run the shared Woodpecker CI server verification
+          ansible.builtin.include_tasks: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/molecule/verify_tasks.yml"
+
+      rescue:
+        # Whatever went wrong, the reason is almost always in the systemd service log.
+        - name: Retrieve the Woodpecker CI server systemd service log
+          ansible.builtin.command:
+            cmd: journalctl --no-pager --output=cat --unit=woodpecker-ci-server.service
+          register: woodpecker_ci_server_service_log
+          changed_when: false
+
+        - name: Show the Woodpecker CI server systemd service log
+          ansible.builtin.debug:
+            var: woodpecker_ci_server_service_log.stdout_lines
+
+        - name: Fail because verification did not pass
+          ansible.builtin.fail:
+            msg: "Woodpecker CI server verification failed. The systemd service log is printed above."
