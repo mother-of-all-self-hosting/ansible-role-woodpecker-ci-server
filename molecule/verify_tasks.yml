@@ -22,13 +22,14 @@
   ansible.builtin.set_fact:
     woodpecker_ci_server_molecule_oauth_client_id: "{{ woodpecker_ci_server_molecule_oauth_client_id_file.content | b64decode | trim }}"
 
-- name: Wait for the Woodpecker CI server systemd service to become active (up to 180s)
+- name: Wait for the Woodpecker CI server systemd services to become active (up to 180s each)
   ansible.builtin.systemd_service:
-    name: woodpecker-ci-server.service
-  register: woodpecker_ci_server_service
-  until: woodpecker_ci_server_service.status.ActiveState == 'active'
+    name: "{{ item }}"
+  register: woodpecker_ci_server_services
+  until: woodpecker_ci_server_services.status.ActiveState == 'active'
   retries: 36
   delay: 5
+  loop: "{{ woodpecker_ci_server_verify_units }}"
   # So that giving up is reported by the assertion below rather than as a
   # wall of systemd unit properties.
   failed_when: false
@@ -36,17 +37,20 @@
 # `Restart=always` in the systemd unit means that even a container which crashes
 # and gets restarted reads as active here, so this is a precondition rather than
 # a result.
-- name: Assert the Woodpecker CI server systemd service is active
+- name: Assert the Woodpecker CI server systemd services are active
   ansible.builtin.assert:
-    that: woodpecker_ci_server_service.status.ActiveState == 'active'
-    fail_msg: "woodpecker-ci-server.service is not active ({{ woodpecker_ci_server_service.status.ActiveState }})"
-    success_msg: "woodpecker-ci-server.service is active"
+    that: woodpecker_ci_server_services.results | map(attribute='status.ActiveState') | unique | list == ['active']
+    fail_msg: >-
+      Not every service is active:
+      {{ dict(woodpecker_ci_server_verify_units | zip(woodpecker_ci_server_services.results | map(attribute='status.ActiveState'))) }}
+    success_msg: "Every systemd service is active"
 
-- name: Retrieve the Woodpecker CI server systemd service log for debugging
+- name: Retrieve the Woodpecker CI server systemd services log for debugging
   when: woodpecker_ci_server_debug_service_enabled | bool
   ansible.builtin.command:
-    cmd: journalctl --no-pager --output=cat --unit=woodpecker-ci-server.service
+    cmd: "journalctl --no-pager --output=cat --unit={{ item }}"
   changed_when: false
+  loop: "{{ woodpecker_ci_server_verify_units }}"
 
 # `active` only means the `docker start --attach` process is alive. A server
 # that rejects its configuration exits during startup, and systemd restarts
@@ -279,7 +283,7 @@
 - name: Show the Woodpecker CI server verification summary
   ansible.builtin.debug:
     msg:
-      - "Woodpecker CI server systemd: {{ woodpecker_ci_server_service.status.ActiveState }}"
+      - "Woodpecker CI server systemd: {% for unit, state in woodpecker_ci_server_verify_units | zip(woodpecker_ci_server_services.results | map(attribute='status.ActiveState')) %}{{ unit }} ({{ state }}){% if not loop.last %}, {% endif %}{% endfor %}"
       - "Woodpecker CI server version: {{ woodpecker_ci_server_version_reported.json.version }}"
       - "Woodpecker CI server web interface: {{ woodpecker_ci_server_endpoint.status }}"
       - "Woodpecker CI server login redirect: {{ woodpecker_ci_server_authorize.location }}"

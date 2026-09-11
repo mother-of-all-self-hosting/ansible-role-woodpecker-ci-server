@@ -14,6 +14,10 @@
     woodpecker_ci_server_molecule_base_url: "http://localhost:{{ woodpecker_ci_server_molecule_bind_port }}"
     woodpecker_ci_server_molecule_forgejo_base_url: "http://localhost:{{ woodpecker_ci_server_molecule_forgejo_bind_port }}"
 
+    woodpecker_ci_server_verify_units:
+      - woodpecker-ci-server.service
+      - "{{ woodpecker_ci_server_molecule_forgejo_identifier }}.service"
+
   tasks:
     - name: Verify that Woodpecker CI server works
       block:
