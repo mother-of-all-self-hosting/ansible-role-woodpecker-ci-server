@@ -70,21 +70,24 @@
 # A server whose configuration did not pass validation never reaches the
 # point of serving anything, so this answering is what tells a serving
 # instance apart from a merely running container.
-- name: Wait for the Woodpecker CI server health endpoint to answer (up to 10m)
+- name: Wait for Woodpecker CI server to report itself healthy (up to 180s)
   ansible.builtin.uri:
     url: "{{ woodpecker_ci_server_molecule_base_url }}/healthz"
     method: GET
     status_code: [200, 204, 404, 500, 502, 503]
-  register: woodpecker_ci_server_healthz
-  until: woodpecker_ci_server_healthz.status == 204
-  retries: 120
+  register: woodpecker_ci_server_health
+  until: woodpecker_ci_server_health.status == 204
+  retries: 36
   delay: 5
+  # So that giving up is reported by the assertion below rather than as a
+  # wall of systemd unit properties.
+  failed_when: false
 
-- name: Assert Woodpecker CI server reports itself as healthy
+- name: Assert Woodpecker CI server reports itself healthy
   ansible.builtin.assert:
-    that: woodpecker_ci_server_healthz.status == 204
-    fail_msg: "Woodpecker CI server is not healthy ({{ woodpecker_ci_server_healthz.status }})"
-    success_msg: "Woodpecker CI server reports itself as healthy"
+    that: woodpecker_ci_server_health.status == 204
+    fail_msg: "Woodpecker CI server did not report itself healthy: {{ authelia_health.json | default('no response') }}"
+    success_msg: "Woodpecker CI server reports itself healthy"
 
 - name: Query the version of the running Woodpecker CI server
   ansible.builtin.uri:
