@@ -31,6 +31,7 @@ provisioner:
       all:
         # Helper variables
         woodpecker_ci_server_debug_service_enabled: false
+        woodpecker_ci_server_restarts_check_enabled: true
 
         # Woodpecker CI is a front-end to a Git forge and refuses to run without
         # one: a server started with no forge configured exits immediately with
