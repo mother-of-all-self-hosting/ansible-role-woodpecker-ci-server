@@ -25,9 +25,6 @@
     - name: Ensure Docker is installed for Woodpecker CI server Molecule tests preparation
       ansible.builtin.include_role:
         name: ansible-role-docker
-      vars:
-        docker_daemon_options:
-          storage-driver: vfs
 
 # Woodpecker CI only runs as a front-end to a Git forge, and it authenticates
 # its users by sending them through that forge's OAuth flow. Both halves need a
