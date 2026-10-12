@@ -13,6 +13,8 @@ This role *implicitly* depends on:
 
 - [`com.devture.ansible.role.systemd_docker_base`](https://github.com/devture/com.devture.ansible.role.systemd_docker_base)
 
+Check [`defaults/main.yml`](defaults/main.yml) for the full list of supported options. Refer to [this page](docs/configuring-woodpecker-ci-server.md) for details about setting up the service with this role.
+
 The **agent** component of Woodpecker CI is managed by a sibling role — [mother-of-all-self-hosting/ansible-role-woodpecker-ci-agent](https://github.com/mother-of-all-self-hosting/ansible-role-woodpecker-ci-agent).
 
 💡 For an Ansible playbook which integrates this role and makes it easier to use, see the [Mother-of-All-Self-Hosting Ansible playbook](https://github.com/mother-of-all-self-hosting/mash-playbook).
