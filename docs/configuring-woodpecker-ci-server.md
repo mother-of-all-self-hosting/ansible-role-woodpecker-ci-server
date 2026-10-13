@@ -93,6 +93,14 @@ woodpecker_ci_server_config_admins:
 >[!NOTE]
 > These users will have admin privileges upon signup.
 
+### Set a source-code provider name
+
+You also have to specify a source-code provider (GitHub, Gitlab, Gitea, Forgejo, etc.) by adding the following configuration to your `vars.yml` file.
+
+```yaml
+woodpecker_ci_server_provider: SOURCE_CODE_PROVIDER_NAME_HERE
+```
+
 ### Connecting to agents on remote machines (optional)
 
 If Woodpecker CI agents will run on remote machines, add the following configuration to your `vars.yml` file:
