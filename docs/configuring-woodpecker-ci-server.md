@@ -67,14 +67,6 @@ woodpecker_ci_server_hostname: "example.com"
 
 After adjusting the hostname, make sure to adjust your DNS records to point the domain to your server.
 
-### Connecting over secure gRPC channel (optional; recommended)
-
-To have the server connect to the server over a secure gRPC channel (recommended), add the following configuration to your `vars.yml` file:
-
-```yaml
-woodpecker_ci_server_config_grpc_secure: true
-````
-
 ### Set a token for server
 
 You also need to specify a shared secret used by the server to authenticate communication by adding the following configuration to your `vars.yml` file. The value can be generated with `openssl rand -hex 32` or in another way.
@@ -87,6 +79,14 @@ woodpecker_ci_server_config_agent_secret: YOUR_SHARED_SECRET_HERE
 > If you choose to share this secret with an agent, the server will register it as a non-persistent agent.
 
 Refer to [this page](https://woodpecker-ci.org/docs/administration/configuration/server) on the official documentation for details about how to register an server and obtain a secret for it.
+
+### Connecting to agents on remote machines (optional)
+
+If Woodpecker CI agents will run on remote machines, add the following configuration to your `vars.yml` file:
+
+```yaml
+woodpecker_ci_server_container_labels_traefik_grpc_enabled: true
+````
 
 ### Configuring database
 
