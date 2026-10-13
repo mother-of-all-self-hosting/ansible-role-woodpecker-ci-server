@@ -43,11 +43,12 @@
     - woodpecker_ci_server_config_agent_secret
     - woodpecker_ci_server_provider
 
+# 'sqlite3' == 'sqlite'
 - name: Fail if Woodpecker CI server database type is invalid
   ansible.builtin.fail:
     msg: >-
-      woodpecker_ci_server_database_type must be 'mysql', 'postgres', or 'sqlite3'
-  when: "woodpecker_ci_server_database_type not in ['mysql', 'postgres', 'sqlite3']"
+      woodpecker_ci_server_database_type must be 'mysql', 'postgres', 'sqlite (sqlite3)'
+  when: "woodpecker_ci_server_database_type not in ['mysql', 'postgres', 'sqlite', 'sqlite3']"
 
 - name: Run if Woodpecker CI server + MySQL integration is enabled
   when: woodpecker_ci_server_database_type == 'mysql'
