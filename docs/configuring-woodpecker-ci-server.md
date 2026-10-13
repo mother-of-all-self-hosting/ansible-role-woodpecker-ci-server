@@ -173,7 +173,9 @@ If you use the MASH playbook, the shortcut commands with the [`just` program](ht
 
 After running the command for installation, Woodpecker CI server becomes available. The server automatically registers with the Woodpecker CI server and takes jobs from it.
 
-Refer to [this page](https://woodpecker-ci.org/docs/administration/configuration/server) on the documentation about its usage.
+To get started, open the URL with a web browser, and click the **Log in** button. It takes you to Gitea or Forgejo per your configuration, and you can authorize Woodpecker CI with the OAuth 2 application.
+
+Refer to [this page](https://woodpecker-ci.org/docs/usage/intro) on the documentation for details about the usage.
 
 ## Troubleshooting
 
