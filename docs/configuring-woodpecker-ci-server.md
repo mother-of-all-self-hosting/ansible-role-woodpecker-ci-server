@@ -56,14 +56,6 @@ woodpecker_ci_server_enabled: true
 ########################################################################
 ```
 
-### Set the hostname and port of the Woodpecker CI server
-
-You also need to specify the Woodpecker CI server's gRPC hostname and port by adding the following configuration to your `vars.yml` file:
-
-```yaml
-woodpecker_ci_server_config_server: YOUR_SERVER_HOSTNAME:YOUR_SERVER_PORT
-```
-
 ### Connecting over secure gRPC channel (optional; recommended)
 
 To have the server connect to the server over a secure gRPC channel (recommended), add the following configuration to your `vars.yml` file:
@@ -71,12 +63,6 @@ To have the server connect to the server over a secure gRPC channel (recommended
 ```yaml
 woodpecker_ci_server_config_grpc_secure: true
 ````
-
-You can have the server to verify th server's TLS certificate when connecting over a secure gRPC channel by adding the following configuration to your `vars.yml` file:
-
-```yaml
-woodpecker_ci_server_config_grpc_verify: true
-```
 
 ### Setting a token for server (optional)
 
