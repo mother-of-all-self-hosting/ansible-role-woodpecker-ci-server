@@ -27,7 +27,7 @@ This is an [Ansible](https://www.ansible.com/) role which installs the **server*
 
 Woodpecker CI is a [Continuous Integration](https://en.wikipedia.org/wiki/Continuous_integration) engine which can build and deploy your code automatically after pushing to a [Gitea](gitea.md) or [Forgejo](forgejo.md) repository.
 
-See the project's [documentation](https://www.woodpecker-ci-server.com/docs) to learn what Woodpecker CI server does and why it might be useful to you.
+See the project's [documentation](https://woodpecker-ci.org/docs/intro) to learn what Woodpecker CI agent does and why it might be useful to you.
 
 ## Prerequisites
 
@@ -75,16 +75,16 @@ To have the server connect to the server over a secure gRPC channel (recommended
 woodpecker_ci_server_config_grpc_secure: true
 ````
 
-### Setting a token for server (optional)
+### Set a token for server
 
-You can specify a shared secret used by the server and servers to authenticate communication by adding the following configuration to your `vars.yml` file:
+You also need to specify a shared secret used by the server to authenticate communication by adding the following configuration to your `vars.yml` file. The value can be generated with `openssl rand -hex 32` or in another way.
 
 ```yaml
-woodpecker_ci_server_config_server_secret: YOUR_SHARED_SECRET_HERE
+woodpecker_ci_server_config_agent_secret: YOUR_SHARED_SECRET_HERE
 ```
 
 >[!NOTE]
-> It is not recommended to use a shared secret between Woodpecker CI server and all of its servers.
+> If you choose to share this secret with an agent, the server will register it as a non-persistent agent.
 
 Refer to [this page](https://woodpecker-ci.org/docs/administration/configuration/server) on the official documentation for details about how to register an server and obtain a secret for it.
 
