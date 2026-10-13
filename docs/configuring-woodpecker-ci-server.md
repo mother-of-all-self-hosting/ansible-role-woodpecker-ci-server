@@ -80,6 +80,19 @@ woodpecker_ci_server_config_agent_secret: YOUR_SHARED_SECRET_HERE
 
 Refer to [this page](https://woodpecker-ci.org/docs/administration/configuration/server) on the official documentation for details about how to register an server and obtain a secret for it.
 
+### Set username matching VCS
+
+It is necessary to specify one or more usernames that match your version control system (e.g. Gitea) as below:
+
+```yaml
+woodpecker_ci_server_config_admins:
+  - YOUR_USERNAME_HERE
+  - ANOTHER_USERNAME_HERE
+```
+
+>[!NOTE]
+> These users will have admin privileges upon signup.
+
 ### Connecting to agents on remote machines (optional)
 
 If Woodpecker CI agents will run on remote machines, add the following configuration to your `vars.yml` file:
