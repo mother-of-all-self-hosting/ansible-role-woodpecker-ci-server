@@ -8,6 +8,7 @@ SPDX-FileCopyrightText: 2020-2025 Slavi Pantaleev
 SPDX-FileCopyrightText: 2022 François Darveau
 SPDX-FileCopyrightText: 2022 Julian Foad
 SPDX-FileCopyrightText: 2022 Warren Bailey
+SPDX-FileCopyrightText: 2023 Alejandro AR
 SPDX-FileCopyrightText: 2023 Antonis Christofides
 SPDX-FileCopyrightText: 2023 Felix Stupp
 SPDX-FileCopyrightText: 2023 Julian-Samuel Gebühr
@@ -30,9 +31,9 @@ See the project's [documentation](https://www.woodpecker-ci-server.com/docs) to 
 
 ## Prerequisites
 
-To run a Woodpecker CI server instance it is necessary to prepare a Woodpecker CI server.
+To run a Woodpecker CI server instance it is necessary to prepare a database. You can use a [MySQL](https://www.mysql.com/) compatible database server, [Postgres](https://www.postgresql.org/), or [SQLite](https://www.sqlite.org/). The SQLite database file will be automatically created by the service if it is enabled.
 
-If you are looking for an Ansible role for a Woodpecker CI server, you can check out [ansible-role-woodpecker-ci-server](https://github.com/mother-of-all-self-hosting/ansible-role-woodpecker-ci-server) maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
+If you are looking for Ansible roles for a MySQL compatible server or Postgres, you can check out [ansible-role-mariadb](https://github.com/mother-of-all-self-hosting/ansible-role-mariadb) and [ansible-role-postgres](https://github.com/mother-of-all-self-hosting/ansible-role-postgres), both of which are maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
 
 ## Adjusting the playbook configuration
 
@@ -56,6 +57,16 @@ woodpecker_ci_server_enabled: true
 ########################################################################
 ```
 
+### Set the hostname
+
+To enable the Woodpecker CI server you need to set the hostname as well. To do so, add the following configuration to your `vars.yml` file. Make sure to replace `example.com` with your own value.
+
+```yaml
+woodpecker_ci_server_hostname: "example.com"
+```
+
+After adjusting the hostname, make sure to adjust your DNS records to point the domain to your server.
+
 ### Connecting over secure gRPC channel (optional; recommended)
 
 To have the server connect to the server over a secure gRPC channel (recommended), add the following configuration to your `vars.yml` file:
@@ -76,6 +87,46 @@ woodpecker_ci_server_config_server_secret: YOUR_SHARED_SECRET_HERE
 > It is not recommended to use a shared secret between Woodpecker CI server and all of its servers.
 
 Refer to [this page](https://woodpecker-ci.org/docs/administration/configuration/server) on the official documentation for details about how to register an server and obtain a secret for it.
+
+### Configuring database
+
+#### Specify database (optional)
+
+You can specify a database used by Forgejo. By default it is configured to use SQLite.
+
+To use Postgres, add the following configuration to your `vars.yml` file:
+
+```yaml
+woodpecker_ci_server_database_type: postgres
+```
+
+Set `mysql` to use a MySQL compatible database.
+
+For other settings, check variables such as `woodpecker_ci_server_database_mysql_*` and `woodpecker_ci_server_database_postgres_*` on [`defaults/main.yml`](../defaults/main.yml).
+
+#### Configuring connection to the database server (optional)
+
+By default the role is configured to establish the connection to the database server via a Unix socket. You can mount the Unix socket by adding the following configuration to your `vars.yml` file:
+
+```yaml
+# Specify the path to the MySQL compatible server's Unix socket path on the host (bind-mount source)
+woodpecker_ci_server_database_mysql_socket_path_host: ""
+
+# Specify the path to the Postgres Unix socket path on the host (bind-mount source)
+woodpecker_ci_server_database_postgres_socket_path_host: ""
+```
+
+Setting it enables to connect to the database server via Unix socket mounted in the container.
+
+If TCP connection is preferred, connection via the Unix socket can be disabled by adding the following configuration to your `vars.yml` file:
+
+```yaml
+# Disable the connection to the MySQL compatible server via a Unix socket
+woodpecker_ci_server_database_mysql_socket_enabled: false
+
+# Disable the connection to the Postgres server via a Unix socket
+woodpecker_ci_server_database_postgres_socket_enabled: false
+```
 
 ### Extending the configuration
 
