@@ -113,7 +113,7 @@ woodpecker_ci_server_container_labels_traefik_grpc_enabled: true
 
 #### Specify database (optional)
 
-You can specify a database used by Forgejo. By default it is configured to use SQLite.
+You can specify a database used by Woodpecker CI server. By default it is configured to use SQLite. The SQLite database is stored in the directory specified with `woodpecker_ci_server_data_path`.
 
 To use Postgres, add the following configuration to your `vars.yml` file:
 
