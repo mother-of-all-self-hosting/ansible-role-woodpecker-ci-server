@@ -101,14 +101,6 @@ You also have to specify a source-code provider (GitHub, Gitlab, Gitea, Forgejo,
 woodpecker_ci_server_provider: SOURCE_CODE_PROVIDER_NAME_HERE
 ```
 
-### Connecting to agents on remote machines (optional)
-
-If Woodpecker CI agents will run on remote machines, add the following configuration to your `vars.yml` file:
-
-```yaml
-woodpecker_ci_server_container_labels_traefik_grpc_enabled: true
-````
-
 ### Configuring database
 
 #### Specify database
@@ -151,6 +143,14 @@ woodpecker_ci_server_database_mysql_socket_enabled: false
 # Disable the connection to the Postgres server via a Unix socket
 woodpecker_ci_server_database_postgres_socket_enabled: false
 ```
+
+### Connecting to agents on remote machines (optional)
+
+If Woodpecker CI agents will run on remote machines, add the following configuration to your `vars.yml` file:
+
+```yaml
+woodpecker_ci_server_container_labels_traefik_grpc_enabled: true
+````
 
 ### Extending the configuration
 
