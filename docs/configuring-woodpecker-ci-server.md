@@ -118,7 +118,7 @@ Set `mysql` to use a MySQL compatible database and `sqlite` to use SQLite, respe
 For other settings, check variables such as `woodpecker_ci_server_database_mysql_*` and `woodpecker_ci_server_database_postgres_*` on [`defaults/main.yml`](../defaults/main.yml).
 
 >[!NOTE]
-> If you (or your playbook) have neither specified a MySQL compatible database or Postgres explicitly, the database for your existing installation is most likely to be `sqlite`.
+> If you (or your playbook) have not specified a MySQL compatible database or Postgres explicitly, the database for your existing installation is most likely to be `sqlite`.
 
 #### Configuring connection to the database server (optional)
 
