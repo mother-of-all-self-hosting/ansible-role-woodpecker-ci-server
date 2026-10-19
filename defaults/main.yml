@@ -308,7 +308,7 @@ woodpecker_ci_server_config_plugins_privileged: ""
 # Specify a database driver to use
 # Valid values: mysql, postgres, sqlite
 # See: https://woodpecker-ci.org/docs/administration/configuration/server#databases
-woodpecker_ci_server_database_type: sqlite
+woodpecker_ci_server_database_type: ""
 
 # Specify database configuration
 woodpecker_ci_server_database_mysql_hostname: ""

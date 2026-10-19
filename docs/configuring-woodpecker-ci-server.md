@@ -111,9 +111,9 @@ woodpecker_ci_server_container_labels_traefik_grpc_enabled: true
 
 ### Configuring database
 
-#### Specify database (optional)
+#### Specify database
 
-You can specify a database used by Woodpecker CI server. By default it is configured to use SQLite. The SQLite database is stored in the directory specified with `woodpecker_ci_server_data_path`.
+The Woodpecker CI server can use either a MySQL compatible database, Postgres, or SQLite, and you need to choose one.
 
 To use Postgres, add the following configuration to your `vars.yml` file:
 
@@ -121,9 +121,12 @@ To use Postgres, add the following configuration to your `vars.yml` file:
 woodpecker_ci_server_database_type: postgres
 ```
 
-Set `mysql` to use a MySQL compatible database.
+Set `mysql` to use a MySQL compatible database and `sqlite` to use SQLite, respectively. The SQLite database is stored in the directory specified with `woodpecker_ci_server_data_path`.
 
 For other settings, check variables such as `woodpecker_ci_server_database_mysql_*` and `woodpecker_ci_server_database_postgres_*` on [`defaults/main.yml`](../defaults/main.yml).
+
+>[!NOTE]
+> If you (or your playbook) have neither specified a MySQL compatible database or Postgres explicitly, the database for your existing installation is most likely to be `sqlite`.
 
 #### Configuring connection to the database server (optional)
 
