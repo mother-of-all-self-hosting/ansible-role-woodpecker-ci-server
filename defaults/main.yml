@@ -357,7 +357,7 @@ woodpecker_ci_server_database_datasource_mysql: |-
 
 # See: https://woodpecker-ci.org/docs/2.8/administration/database#configure-postgres
 woodpecker_ci_server_database_datasource_postgres: |-
-  postgres://{{ woodpecker_ci_server_database_postgres_username }}:{{ woodpecker_ci_server_database_postgres_password }}@
+  postgres://{{ woodpecker_ci_server_database_postgres_username | urlencode | replace('/', '%2F') }}:{{ woodpecker_ci_server_database_postgres_password | urlencode | replace('/', '%2F') }}@
   {%- if woodpecker_ci_server_database_postgres_socket_enabled -%}
   /{{ woodpecker_ci_server_database_name }}?host={{ woodpecker_ci_server_database_postgres_socket_path_container }}
   {%- else -%}
