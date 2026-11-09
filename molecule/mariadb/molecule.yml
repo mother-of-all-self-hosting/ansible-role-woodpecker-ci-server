@@ -104,8 +104,8 @@ provisioner:
         # Variables required for Woodpecker CI server to connect to the MariaDB database (via Unix socket)
         woodpecker_ci_server_database_type: mysql
         woodpecker_ci_server_database_mysql_hostname: "{{ woodpecker_ci_server_database_mysql_socket_path_container + '/mysqld.sock' }}"
-        woodpecker_ci_server_database_mysql_username: my_database_username
-        woodpecker_ci_server_database_mysql_password: my_database_password
+        woodpecker_ci_server_database_mysql_username: /#@my_database_username?%
+        woodpecker_ci_server_database_mysql_password: /#@my_database_password?%
         woodpecker_ci_server_database_name: woodpecker_ci_server
         woodpecker_ci_server_database_mysql_socket_enabled: true
         woodpecker_ci_server_database_mysql_socket_path_host: "{{ mariadb_run_path }}"

@@ -103,8 +103,8 @@ provisioner:
 
         # Variables required for Woodpecker CI server to connect to the Postgres database (via Unix socket)
         woodpecker_ci_server_database_type: postgres
-        woodpecker_ci_server_database_postgres_username: my_database_username
-        woodpecker_ci_server_database_postgres_password: my_database_password
+        woodpecker_ci_server_database_postgres_username: /#@my_database_username?%
+        woodpecker_ci_server_database_postgres_password: /#@my_database_password?%
         woodpecker_ci_server_database_name: woodpecker_ci_server
         woodpecker_ci_server_database_postgres_socket_enabled: true
         woodpecker_ci_server_database_postgres_socket_path_host: "{{ postgres_run_path }}"
