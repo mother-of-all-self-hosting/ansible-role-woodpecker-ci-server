@@ -64,6 +64,7 @@
               {{ woodpecker_ci_server_container_network }}
           register: woodpecker_ci_server_network_deletion_result
           changed_when: woodpecker_ci_server_container_network in woodpecker_ci_server_network_deletion_result.stdout
+          failed_when: woodpecker_ci_server_network_deletion_result.rc != 0 and 'not found' not in woodpecker_ci_server_network_deletion_result.stderr
 
 - name: Check existence of Woodpecker CI server local data path
   ansible.builtin.stat:
